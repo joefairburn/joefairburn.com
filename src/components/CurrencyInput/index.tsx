@@ -61,7 +61,7 @@ export const CurrencyInput = () => {
 
   return (
     <div
-      className='flex flex-col gap-2'
+      className='flex flex-col gap-2 w-full'
       role='textbox'
       aria-label='Currency input'
       tabIndex={0}
