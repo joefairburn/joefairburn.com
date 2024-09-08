@@ -1,16 +1,31 @@
 ---
 import { CurrencyInput } from '../components/CurrencyInput';
 import Layout from '../layouts/Layout.astro';
+import ComponentWrapper from '../components/ComponentWrapper.astro';
+import { SteppedCard } from '../components/SteppedCard';
+const padding = "p-8";
 ---
 
-<Layout title="Welcome to Astro.">
-	<main class="flex flex-col items-center min-h-screen">
-		<h1>Joe Fairburn</h1>
-		<p>
-			Frontend Engineer
-		</p>
 
-		<CurrencyInput client:visible />
+<Layout title="Welcome to Astro.">
+	<main class="flex flex-row items-start justify-between min-h-screen w-full mx-auto">
+		<aside class:list={["sticky top-0 flex flex-col gap-4 items-start justify-start max-w-xl", padding]}>
+			<h1 class="font-serif font-light text-4xl">Joe Fairburn</h1>
+			<p class="font-light text-base text-neutral-400">
+			I'm a frontend engineer at <a href="https://uppbeat.io" target="_blank" class="text-uppbeat font-medium underline hover:font-bold transition-[font-weight] duration-500 will-change-[font-weight]">Uppbeat</a>.</p>
+
+			<p class="font-light text-base text-neutral-400">I'm passionate about UI, motion, and performance.</p>
+		</aside>
+
+		<section class:list={["flex flex-row flex-wrap gap-4 items-start justify-start pl-0 flex-grow @container ", padding]}>
+			<ComponentWrapper title="Currency Input" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Sed ut purus eget sapien. Sed ut purus eget sapien." technologies={["React", "TypeScript", "Tailwind CSS"]}>
+				<CurrencyInput client:visible />
+			</ComponentWrapper>
+
+			<ComponentWrapper title="Stepped Card" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Sed ut purus eget sapien. Sed ut purus eget sapien." technologies={["React", "TypeScript", "Tailwind CSS"]}>
+				<SteppedCard client:visible />
+			</ComponentWrapper>
+		</section>
 	</main>
 </Layout>
 

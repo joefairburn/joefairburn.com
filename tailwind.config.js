@@ -1,3 +1,5 @@
+import defaultTheme from 'tailwindcss/defaultTheme'
+
 /** @type {import('tailwindcss').Config} */
 export default {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
@@ -35,7 +37,13 @@ export default {
 			transitionTimingFunction: {
 				easy: "cubic-bezier(0.25,0.1,0.25,1)",
 			},
+			fontFamily: {
+				serif: ['Tobias', ...defaultTheme.fontFamily.serif],
+			},
+			colors: {
+				uppbeat: '#F23D75',
+			},
 		},
 	},
-	plugins: [],
+	plugins: [require('@tailwindcss/container-queries')],
 }
