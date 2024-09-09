@@ -2,12 +2,11 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Value } from './Value'
+import { motion, MotionConfig } from 'framer-motion'
 
 export const CurrencyInput = () => {
   const inputRef = useRef<HTMLInputElement>(null)
   const [value, setValue] = useState<string | null>(null)
-
-  const [caretPosition, setCaretPosition] = useState<number | null>(null)
 
   useEffect(() => {
     const input = inputRef.current
@@ -29,8 +28,6 @@ export const CurrencyInput = () => {
       input.removeEventListener('keyup', updateCaretPosition)
     }
   }, [])
-
-  console.log(caretPosition)
 
   const valueWithoutDecimals = useMemo(() => {
     if (!value) return null
@@ -60,25 +57,45 @@ export const CurrencyInput = () => {
   }
 
   return (
-    <div
-      className='flex flex-col gap-2 w-full'
-      role='textbox'
-      aria-label='Currency input'
-      tabIndex={0}
-      onFocus={() => inputRef.current?.focus()}
+    <MotionConfig
+      transition={{
+        type: 'spring',
+        stiffness: 300,
+        damping: 30,
+        mass: 1,
+        velocity: 10
+      }}
     >
-      <div className='flex'>
-        <div className='flex items-end text-black dark:text-white text-8xl font-bold'>
-          <div>$</div>
-          <Value value={valueWithoutDecimals} decimal={decimal} />
+      <div
+        className='flex flex-col gap-2 w-full'
+        role='textbox'
+        aria-label='Currency input'
+        tabIndex={0}
+        onFocus={() => inputRef.current?.focus()}
+      >
+        <div className='flex'>
+          <div
+            className='flex items-end text-black dark:text-white text-8xl font-bold'
+            style={{
+              fontSize: `${Math.max(
+                32,
+                96 / (1 + Math.max(0, (value?.length ?? 0) - 3) * 0.1)
+              )}px`
+            }}
+          >
+            <motion.div layout className=''>
+              $
+            </motion.div>
+            <Value value={valueWithoutDecimals} decimal={decimal} />
+          </div>
         </div>
+        <input
+          ref={inputRef}
+          className='text-black sr-only'
+          value={value ?? ''}
+          onChange={handleChange}
+        />
       </div>
-      <input
-        ref={inputRef}
-        className='text-black sr-only'
-        value={value ?? ''}
-        onChange={handleChange}
-      />
-    </div>
+    </MotionConfig>
   )
 }

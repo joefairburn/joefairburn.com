@@ -1,6 +1,6 @@
 import { useMeasure } from '@uidotdev/usehooks'
 import clsx from 'clsx'
-import { motion, MotionConfig } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Fragment, useMemo } from 'react'
 import { Caret } from './Caret'
 
@@ -45,56 +45,46 @@ export const Value = ({ value, decimal }: ValueProps) => {
   }, [value])
 
   return (
-    <MotionConfig
-      transition={{
-        type: 'spring',
-        stiffness: 300,
-        damping: 30,
-        mass: 1,
-        velocity: 10
-      }}
-    >
-      <motion.div animate={{ width: width ?? 0 }} className='h-full'>
-        <div className='w-fit flex h-full' ref={ref}>
-          {characters.map(({ key, char, isComma }) => (
-            <Fragment key={key}>
-              <motion.span
-                layoutId={key}
-                initial={{ scale: 0.2, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.2, opacity: 0 }}
-              >
-                {char}
-              </motion.span>
-            </Fragment>
-          ))}
-          {decimal &&
-            defaultDecimal.map((_, index) => {
-              const char = decimalArray[index] ?? null
-              return (
-                <Fragment key={index}>
-                  <motion.div
-                    layoutId={`decimal-${index}`}
-                    layout='position'
-                    className={clsx(!char && 'text-gray-600')}
-                    initial={{
-                      opacity: 0,
-                      scale: 0.2,
-                      originX: 0,
-                      originY: 0.5
-                    }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.2 }}
-                  >
-                    {char ?? 0}
-                  </motion.div>
-                  {index === decimalCaretPosition - 1 && <Caret />}
-                </Fragment>
-              )
-            })}
-          {!decimal && <Caret key={value} />}
-        </div>
-      </motion.div>
-    </MotionConfig>
+    <motion.div animate={{ width: width ?? 0 }} className='h-full'>
+      <div className='w-fit flex h-full' ref={ref}>
+        {characters.map(({ key, char, isComma }) => (
+          <Fragment key={key}>
+            <motion.span
+              layoutId={key}
+              initial={{ scale: 0.2, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.2, opacity: 0 }}
+            >
+              {char}
+            </motion.span>
+          </Fragment>
+        ))}
+        {decimal &&
+          defaultDecimal.map((_, index) => {
+            const char = decimalArray[index] ?? null
+            return (
+              <Fragment key={index}>
+                <motion.div
+                  layoutId={`decimal-${index}`}
+                  layout='position'
+                  className={clsx(!char && 'text-gray-600')}
+                  initial={{
+                    opacity: 0,
+                    scale: 0.2,
+                    originX: 0,
+                    originY: 0.5
+                  }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.2 }}
+                >
+                  {char ?? 0}
+                </motion.div>
+                {index === decimalCaretPosition - 1 && <Caret />}
+              </Fragment>
+            )
+          })}
+        {!decimal && <Caret key={value} />}
+      </div>
+    </motion.div>
   )
 }
