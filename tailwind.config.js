@@ -5,6 +5,9 @@ export default {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
 		extend: {
+			spacing: {
+				'128': '32rem',
+			},
 			// Add the keyframes for the blink animation
 			keyframes: {
 				blink: {
@@ -39,6 +42,7 @@ export default {
 			},
 			fontFamily: {
 				serif: ['Tobias', ...defaultTheme.fontFamily.serif],
+				sans: ['Inter Variable', ...defaultTheme.fontFamily.sans],
 			},
 			colors: {
 				uppbeat: '#F23D75',

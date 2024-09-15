@@ -16,7 +16,7 @@ export const CopyToClipboardButton = ({
   const copyToClipboard = () => {
     navigator.clipboard.writeText(textToCopy)
     setHasCopied(true)
-    setTimeout(() => setHasCopied(false), 5000)
+    setTimeout(() => setHasCopied(false), 2000)
   }
 
   return (

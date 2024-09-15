@@ -45,10 +45,8 @@ export const CurrencyInput = () => {
     // Get value before the decimals
     const valueAsString = e.target.value
     const startsWithMultipleZeros = valueAsString.startsWith('00')
-    const decimalPlaces = valueAsString.split('.')[1]?.length ?? 0
 
     const isNumber = /^-?\d+(\.\d{0,2})?$/.test(valueAsString)
-    const hasMoreThanTwoDecimals = decimalPlaces > 2
     if ((!isNumber && valueAsString !== '') || startsWithMultipleZeros) {
       return
     }
@@ -77,10 +75,20 @@ export const CurrencyInput = () => {
           <div
             className='flex items-end text-black dark:text-white text-8xl font-bold'
             style={{
-              fontSize: `${Math.max(
-                32,
-                96 / (1 + Math.max(0, (value?.length ?? 0) - 3) * 0.1)
-              )}px`
+              fontSize: `${
+                (valueWithoutDecimals?.length ?? 0) > 6
+                  ? Math.max(
+                      16,
+                      96 /
+                        (1 +
+                          Math.max(
+                            0,
+                            (valueWithoutDecimals?.length ?? 0) - 6
+                          ) *
+                            0.15)
+                    )
+                  : 96
+              }px`
             }}
           >
             <motion.div layout className=''>

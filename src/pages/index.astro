@@ -2,37 +2,44 @@
 import ComponentWrapper from '../components/ComponentWrapper.astro';
 import { CurrencyInput } from '../components/CurrencyInput';
 import { DynamicCardDemo } from '../components/DynamicCard/Demo';
+import Sidebar from '../components/Sidebar.astro';
 import { SteppedCard } from '../components/SteppedCard';
+import { Toolbar } from '../components/Toolbar';
 import Layout from '../layouts/Layout.astro';
 const padding = "p-8";
 ---
 
 
 <Layout title="Welcome to Astro.">
-	<main class="flex flex-row items-start justify-between min-h-screen w-full mx-auto">
-		<aside class:list={["sticky top-0 flex flex-col gap-4 items-start justify-start max-w-xl", padding]}>
-			<h1 class="font-serif font-light text-4xl">Joe Fairburn</h1>
-			<p class="font-light text-base text-neutral-400">
-			I'm a frontend engineer at <a href="https://uppbeat.io" target="_blank" class="text-uppbeat font-medium underline hover:font-bold transition-[font-weight] duration-500 will-change-[font-weight]">Uppbeat</a>.</p>
+	<main class="flex flex-col xl:flex-row items-start justify-between min-h-screen max-w-full mx-auto">
+		<Sidebar padding={padding} />
 
-			<p class="font-light text-base text-neutral-400">I'm passionate about UI, motion, and performance.</p>
-		</aside>
-
-		<section class:list={["flex flex-row gap-4 items-start justify-start pl-0 flex-grow @container", padding]}>
-			<div class="flex flex-col gap-4">
-				<ComponentWrapper title="Currency Input" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Sed ut purus eget sapien. Sed ut purus eget sapien." technologies={["React", "TypeScript", "Tailwind CSS"]}>
-					<div class="w-full min-h-24 flex items-center justify-center">
-						<CurrencyInput client:visible />
-					</div>
-				</ComponentWrapper>
-				<ComponentWrapper title="Stepped Card" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Sed ut purus eget sapien. Sed ut purus eget sapien." technologies={["React", "TypeScript", "Tailwind CSS"]}>
-					<SteppedCard client:visible />
-				</ComponentWrapper>
-			</div>
-			<div class="flex flex-col gap-4">
-				<ComponentWrapper title="Dynamic Card" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Sed ut purus eget sapien. Sed ut purus eget sapien." technologies={["React", "TypeScript", "Tailwind CSS"]}>
-					<DynamicCardDemo client:visible />
-				</ComponentWrapper>
+		<section class={"@container w-full"}>
+			<div class:list={["flex flex-col w-full gap-4 items-start justify-start flex-grow xl:pl-0 @4xl:flex-row", padding]}>
+				<div class="flex flex-col gap-4">
+					<ComponentWrapper title="Currency Input" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Sed ut purus eget sapien. Sed ut purus eget sapien." technologies={["React", "TypeScript", "Tailwind CSS"]}>
+						<div class="w-full min-h-24 flex items-center justify-center">
+							<CurrencyInput client:visible />
+						</div>
+					</ComponentWrapper>
+					<ComponentWrapper title="Stepped Card" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Sed ut purus eget sapien. Sed ut purus eget sapien." technologies={["React", "TypeScript", "Tailwind CSS"]}>
+						<div class="relative w-full min-h-128 flex items-center justify-center">
+							<SteppedCard client:visible />
+						</div>
+					</ComponentWrapper>
+				</div>
+				<div class="flex flex-col gap-4">
+					<ComponentWrapper title="Toolbar" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Sed ut purus eget sapien. Sed ut purus eget sapien." technologies={["React", "TypeScript", "Tailwind CSS"]}>
+						<div class="relative w-full min-h-96 flex items-center justify-center">
+							<Toolbar client:visible />
+						</div>
+					</ComponentWrapper>
+					<ComponentWrapper title="Dynamic Card" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Sed ut purus eget sapien. Sed ut purus eget sapien." technologies={["React", "TypeScript", "Tailwind CSS"]}>
+						<div class="relative w-full min-h-96 flex items-center justify-center">
+							<DynamicCardDemo client:visible />
+						</div>
+					</ComponentWrapper>
+				</div>
 			</div>
 		</section>
 	</main>
