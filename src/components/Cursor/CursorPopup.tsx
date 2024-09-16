@@ -1,19 +1,24 @@
 import { useStore } from '@nanostores/react'
 import { useMeasure } from '@uidotdev/usehooks'
+import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
-import { cursorContent } from '../../store/cursorAtom'
+import { useState, type RefObject } from 'react'
+import { cursorContent, cursorPosition } from '../../store/cursorAtom'
 
-export const CursorPopup = () => {
+export const CursorPopup = ({
+  popupRef
+}: {
+  popupRef: RefObject<HTMLDivElement>
+}) => {
   const [ref, { width, height }] = useMeasure()
-
-  const popupRef = useRef<HTMLDivElement>(null)
 
   const [heightOfCurrentAnimation, setHeightOfCurrentAnimation] = useState<
     number | null
   >(null)
 
   const $content = useStore(cursorContent)
+
+  const $cursorPosition = useStore(cursorPosition)
 
   cursorContent.listen((content) => {
     if (!content) {
@@ -26,7 +31,9 @@ export const CursorPopup = () => {
   return (
     <div
       ref={popupRef}
-      className='absolute flex items-center justify-center origin-left text-nowrap w-[var(--width)] h-[var(--height)] transition-[width] duration-500 bg-neutral-800 overflow-hidden rounded-md'
+      className={clsx(
+        'absolute flex items-center justify-center origin-left text-nowrap w-[var(--width)] h-[var(--height)] transition-[width,transform] duration-[0.5s,0.3s] ease-easy bg-neutral-800 overflow-hidden rounded-md bg-opacity-75 backdrop-blur-sm'
+      )}
       style={
         {
           '--width': `${$content && width ? width : 0}px`,
@@ -34,7 +41,7 @@ export const CursorPopup = () => {
         } as React.CSSProperties
       }
     >
-      <div ref={ref} className='absolute top-0 left-0 w-fit h-fit z-20'>
+      <div ref={ref} className='absolute top-0 left-0 w-fit h-fit z-20 '>
         <AnimatePresence>
           {$content && (
             <motion.div

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useEffect, useId, useState, type RefObject } from 'react'
+import { useCursor } from './providers/CursorProvider'
 
 export const CursorIcon = ({
   cursorRef
@@ -7,66 +8,7 @@ export const CursorIcon = ({
   cursorRef: RefObject<HTMLDivElement>
 }) => {
   const id = useId()
-
-  const [isVisible, setIsVisible] = useState(true)
-  const [cursorType, setCursorType] = useState<string>('default')
-  const [isMouseDown, setIsMouseDown] = useState(false)
-
-  // Update the cursor position on mouse move.
-  // Handling this in a ref is much more performant than state.
-  useEffect(() => {
-    const updatePosition = (e: MouseEvent) => {
-      if (cursorRef.current) {
-        cursorRef.current.style.left = `${e.clientX}px`
-        cursorRef.current.style.top = `${e.clientY}px`
-      }
-    }
-
-    const handleMouseLeave = () => {
-      setIsVisible(false)
-    }
-
-    const handleMouseEnter = () => {
-      setIsVisible(true)
-    }
-
-    const handleMouseDown = () => {
-      setIsMouseDown(true)
-    }
-
-    const handleMouseUp = () => {
-      setIsMouseDown(false)
-    }
-
-    window.addEventListener('mousemove', updatePosition)
-    window.addEventListener('mousedown', handleMouseDown)
-    window.addEventListener('mouseup', handleMouseUp)
-
-    document.body.addEventListener('mouseleave', handleMouseLeave)
-    document.body.addEventListener('mouseenter', handleMouseEnter)
-
-    window.addEventListener('mouseover', (e) => {
-      const target = e.target as HTMLElement
-      let cursor = 'default'
-      if (
-        target.tagName.toLowerCase() === 'button' ||
-        target.tagName.toLowerCase() === 'a' ||
-        target.closest('button') ||
-        target.closest('a')
-      ) {
-        cursor = 'pointer'
-      }
-      setCursorType(cursor)
-    })
-
-    return () => {
-      window.removeEventListener('mousemove', updatePosition)
-      window.removeEventListener('click', handleMouseDown)
-      window.removeEventListener('click', handleMouseUp)
-      document.body.removeEventListener('mouseleave', handleMouseLeave)
-      document.body.removeEventListener('mouseenter', handleMouseEnter)
-    }
-  }, [])
+  const { isMouseDown, cursorType, isVisible } = useCursor()
 
   return (
     <motion.svg
