@@ -1,46 +1,27 @@
 ---
-import ComponentWrapper from '../components/ComponentWrapper.astro';
-import { CurrencyInput } from '../components/CurrencyInput';
-import { DynamicCardDemo } from '../components/DynamicCard/Demo';
-import Sidebar from '../components/Sidebar.astro';
-import { SteppedCard } from '../components/SteppedCard';
-import { Toolbar } from '../components/Toolbar';
+import { ContactButton } from '../components/ContactButton';
+import SpotifyWrapper from '../components/SpotifyWrapper.astro';
 import Layout from '../layouts/Layout.astro';
-const padding = "p-8";
 ---
 
 
 <Layout title="Welcome to Astro.">
-	<main class="flex flex-col xl:flex-row items-start justify-between min-h-screen max-w-full mx-auto">
-		<Sidebar padding={padding} />
-
+	<main class="max-w-2xl mx-auto">
 		<section class={"@container w-full"}>
-			<div class:list={["flex flex-col w-full gap-4 items-start justify-start flex-grow xl:pl-0 @4xl:flex-row", padding]}>
+			<div class=''>
 				<div class="flex flex-col gap-4">
-					<ComponentWrapper title="Currency Input" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Sed ut purus eget sapien. Sed ut purus eget sapien." technologies={["React", "TypeScript", "Tailwind CSS"]}>
-						<div class="w-full min-h-24 flex items-center justify-center">
-							<CurrencyInput client:visible />
-						</div>
-					</ComponentWrapper>
-					<ComponentWrapper title="Stepped Card" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Sed ut purus eget sapien. Sed ut purus eget sapien." technologies={["React", "TypeScript", "Tailwind CSS"]}>
-						<div class="relative w-full min-h-128 flex items-center justify-center">
-							<SteppedCard client:visible />
-						</div>
-					</ComponentWrapper>
-				</div>
-				<div class="flex flex-col gap-4">
-					<ComponentWrapper title="Toolbar" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Sed ut purus eget sapien. Sed ut purus eget sapien." technologies={["React", "TypeScript", "Tailwind CSS"]}>
-						<div class="relative w-full min-h-96 flex items-center justify-center">
-							<Toolbar client:visible />
-						</div>
-					</ComponentWrapper>
-					<ComponentWrapper title="Dynamic Card" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Sed ut purus eget sapien. Sed ut purus eget sapien." technologies={["React", "TypeScript", "Tailwind CSS"]}>
-						<div class="relative w-full min-h-96 flex items-center justify-center">
-							<DynamicCardDemo client:visible />
-						</div>
-					</ComponentWrapper>
+					<h1 class="font-serif font-light text-4xl tracking-tight">Joe Fairburn</h1>
+					<p class="font-light text-base text-neutral-400">
+					I'm a frontend engineer at <a href="https://uppbeat.io" target="_blank" class="text-uppbeat font-medium underline hover:font-bold transition-[font-weight] duration-500 will-change-[font-weight]">Uppbeat</a>.</p>
+					<p class="font-light text-base text-neutral-400 text-wrap max-w-prose">
+						I like creating experiences that users love.
+					</p>
+					<div class="ml-auto">
+						<ContactButton client:visible />
+					</div>
 				</div>
 			</div>
+			<SpotifyWrapper />
 		</section>
 	</main>
 </Layout>

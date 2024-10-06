@@ -1,0 +1,8 @@
+---
+import { getSpotifyData } from '../lib/spotify';
+import { SpotifyCard } from './SpotifyCard';
+
+const spotifyData = await getSpotifyData();
+---
+
+<SpotifyCard client:load spotifyData={spotifyData} />

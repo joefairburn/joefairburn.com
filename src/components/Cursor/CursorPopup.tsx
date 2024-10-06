@@ -18,8 +18,6 @@ export const CursorPopup = ({
 
   const $content = useStore(cursorContent)
 
-  const $cursorPosition = useStore(cursorPosition)
-
   cursorContent.listen((content) => {
     if (!content) {
       setHeightOfCurrentAnimation(height)
