@@ -1,37 +1,40 @@
 import {
   type PlaybackState,
+  type PlayHistory,
   type RecentlyPlayedTracksPage,
   type Track
 } from '@spotify/web-api-ts-sdk'
-import { Dot } from 'lucide-react'
-
-const isPlaybackState = (data: any): data is PlaybackState => {
-  return 'is_playing' in data
-}
-
-const isRecentlyPlayed = (data: any): data is RecentlyPlayedTracksPage => {
-  return 'items' in data && Array.isArray(data.items)
-}
+import { getTrackDetails } from './utils'
+import { ActivityIndicator } from './ActivityIndicator'
+import { formatDistanceToNow } from 'date-fns'
 
 export const SpotifyCard = ({
   spotifyData
 }: {
-  spotifyData: PlaybackState | null
+  spotifyData: PlaybackState | PlayHistory | null
 }) => {
-  if (!spotifyData) {
+  if (!spotifyData || 'show' in spotifyData) {
     return null
   }
 
-  const item = spotifyData.item
+  const item = getTrackDetails(spotifyData)
 
-  if ('show' in item) {
+  if (!item) {
     return null
   }
+
   const name = item.name
   const artist = item.artists[0].name
   const image = item.album.images[0].url
 
-  console.log(item)
+  const isCurrentlyPlaying = item.played_at === null
+
+  const activityText = item.played_at
+    ? `played ${formatDistanceToNow(new Date(item.played_at), {
+        addSuffix: true
+      })}`
+    : 'Currently playing'
+
   return (
     <div className='flex items-center gap-4'>
       <img className='size-16 rounded-sm opacity-80' src={image} alt={name} />
@@ -44,10 +47,9 @@ export const SpotifyCard = ({
           {name}
         </a>
         <div className='text-sm text-gray-500'>{artist}</div>
-        <div className='flex items-center gap-2'>
-          <div className='size-2 rounded-full bg-green-600' />
-          <span className='text-xs text-gray-600'>Currently playing</span>
-        </div>
+        <ActivityIndicator currentlyPlaying={isCurrentlyPlaying}>
+          {activityText}
+        </ActivityIndicator>
       </div>
     </div>
   )

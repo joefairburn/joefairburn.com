@@ -1,7 +1,10 @@
 ---
 import { ContactButton } from '../components/ContactButton';
-import SpotifyWrapper from '../components/SpotifyWrapper.astro';
+import { SpotifyCard } from '../components/SpotifyCard';
 import Layout from '../layouts/Layout.astro';
+import { getSpotifyData } from '../lib/spotify';
+
+const spotifyData = await getSpotifyData();
 ---
 
 
@@ -14,14 +17,14 @@ import Layout from '../layouts/Layout.astro';
 					<p class="font-light text-base text-neutral-400">
 					I'm a frontend engineer at <a href="https://uppbeat.io" target="_blank" class="text-uppbeat font-medium underline hover:font-bold transition-[font-weight] duration-500 will-change-[font-weight]">Uppbeat</a>.</p>
 					<p class="font-light text-base text-neutral-400 text-wrap max-w-prose">
-						I like creating experiences that users love.
+						<!-- I like creating experiences that users love. -->
 					</p>
 					<div class="ml-auto">
 						<ContactButton client:visible />
 					</div>
 				</div>
 			</div>
-			<SpotifyWrapper />
+			<SpotifyCard client:visible spotifyData={spotifyData} />
 		</section>
 	</main>
 </Layout>
