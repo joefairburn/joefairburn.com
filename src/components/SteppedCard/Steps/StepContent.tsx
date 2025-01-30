@@ -1,6 +1,6 @@
 import { useMeasure } from '@uidotdev/usehooks'
 import { useStep } from './StepsProvider'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'motion/react'
 
 export const StepContent = () => {
   const [ref, { height }] = useMeasure()

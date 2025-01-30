@@ -2,7 +2,7 @@
 
 import { useMeasure } from '@uidotdev/usehooks'
 import clsx from 'clsx'
-import { AnimatePresence, motion, MotionConfig } from 'framer-motion'
+import { AnimatePresence, motion, MotionConfig } from 'motion/react'
 import { ChevronLeft, X } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 import { DynamicCardProvider, useDynamicCard } from './DynamicCardProvider'

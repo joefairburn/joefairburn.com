@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'motion/react'
 import { CheckIcon, CopyIcon } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 import { twMerge } from 'tailwind-merge'

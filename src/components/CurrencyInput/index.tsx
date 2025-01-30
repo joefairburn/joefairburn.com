@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Value } from './Value'
-import { motion, MotionConfig } from 'framer-motion'
+import { motion, MotionConfig } from 'motion/react'
 
 export const CurrencyInput = () => {
   const inputRef = useRef<HTMLInputElement>(null)

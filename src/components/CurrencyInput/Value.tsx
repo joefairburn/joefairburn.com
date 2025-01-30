@@ -1,6 +1,6 @@
 import { useMeasure } from '@uidotdev/usehooks'
 import clsx from 'clsx'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { Fragment, useMemo } from 'react'
 import { Caret } from './Caret'
 

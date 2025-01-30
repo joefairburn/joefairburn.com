@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { MotionConfig } from 'framer-motion'
+import { MotionConfig } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import { CursorIcon } from './CursorIcon'
 import { CursorPopup } from './CursorPopup'

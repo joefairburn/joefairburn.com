@@ -1,7 +1,7 @@
 import { useStore } from '@nanostores/react'
 import { useMeasure } from '@uidotdev/usehooks'
 import clsx from 'clsx'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'motion/react'
 import { useState, type RefObject } from 'react'
 import { cursorContent, cursorPosition } from '../../store/cursorAtom'
 

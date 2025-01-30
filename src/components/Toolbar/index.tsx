@@ -1,6 +1,6 @@
 import { useMeasure } from '@uidotdev/usehooks'
 import clsx from 'clsx'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { ChevronLeft, ChevronRight, Settings, ToggleLeft } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { ToggleSetting } from './ToggleSetting'

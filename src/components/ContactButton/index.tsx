@@ -1,5 +1,5 @@
 import { useMeasure } from '@uidotdev/usehooks'
-import { delay, motion, type Variants } from 'framer-motion'
+import { motion, type Variants } from 'motion/react'
 import { Send } from 'lucide-react'
 import { cursorContent } from '../../store/cursorAtom'
 
