@@ -1,10 +1,19 @@
 import clsx from 'clsx'
 import { cursorContent } from '../../store/cursorAtom'
 
-const LinkCard = ({ image }: { image?: string }) => {
+const LinkCard = ({
+  image,
+  children
+}: {
+  image?: string
+  children: React.ReactNode
+}) => {
   return (
-    <div className='min-w-56 flex items-center justify-center'>
-      {image ? <img src={image} /> : null}
+    <div className='min-w-96 flex flex-col justify-center'>
+      {image ? <img loading='lazy' src={image} /> : null}
+      <span className='text-xs text-neutral-400 text-wrap leading-normal p-4'>
+        {children}
+      </span>
     </div>
   )
 }
@@ -14,8 +23,9 @@ export const Link = ({
   className = '',
   target = '_blank',
   image,
+  description,
   ...props
-}: React.ComponentProps<'a'> & { image?: string }) => {
+}: React.ComponentProps<'a'> & { image?: string; description?: string }) => {
   const $cursor = cursorContent
   return (
     <a
@@ -25,7 +35,10 @@ export const Link = ({
       {...props}
       onMouseEnter={() =>
         $cursor.set({
-          content: image ? <LinkCard image={image} /> : null
+          content: image ? (
+            <LinkCard image={image}>{description}</LinkCard>
+          ) : null,
+          className: 'shadow-lg'
         })
       }
       onMouseLeave={() => $cursor.set({ content: null })}

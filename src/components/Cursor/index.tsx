@@ -19,7 +19,7 @@ export const Cursor = () => {
           )}
         >
           <CursorIcon cursorRef={cursorRef} />
-          <div className='absolute bottom-0 right-0 w-fit h-fit'>
+          <div className='absolute bottom-0 right-0 w-fit h-fit overflow-visible'>
             <CursorPopup popupRef={popupRef} />
           </div>
         </div>

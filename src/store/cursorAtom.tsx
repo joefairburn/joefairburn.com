@@ -1,7 +1,11 @@
 import { atom, map } from 'nanostores'
 
-export const cursorContent = map<{ content: JSX.Element | null }>({
-  content: null
+export const cursorContent = map<{
+  content: JSX.Element | null
+  className?: string
+}>({
+  content: null,
+  className: ''
 })
 
 export const cursorPosition = atom<{
