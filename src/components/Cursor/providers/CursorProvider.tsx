@@ -35,29 +35,23 @@ export const CursorProvider = ({
   useEffect(() => {
     const updatePosition = (e: MouseEvent) => {
       if (cursorRef.current) {
-        cursorRef.current.style.left = `${e.clientX}px`
-        cursorRef.current.style.top = `${e.clientY}px`
+        cursorRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`
       }
 
       // Prevent the popup from being clipped by the viewport
       if (popupRef.current && cursorRef.current) {
         const popup = popupRef.current
         const rect = popup.getBoundingClientRect()
-
         const cursorRect = cursorRef.current.getBoundingClientRect()
 
         let x = 0
         let y = 0
-
         const borderMargin = 10
 
         if (
           e.clientX + rect.width + cursorRect.width + borderMargin >
           window.innerWidth
         ) {
-          // x =
-          //   window.innerWidth -
-          //   (e.clientX + rect.width + cursorRect.width + borderMargin)
           x = -(cursorRect.width + rect.width + borderMargin)
         }
 
@@ -65,9 +59,6 @@ export const CursorProvider = ({
           e.clientY + rect.height + cursorRect.height + borderMargin >
           window.innerHeight
         ) {
-          // y =
-          //   window.innerHeight -
-          //   (e.clientY + rect.height + cursorRect.height + borderMargin)
           y = -(cursorRect.height + rect.height + borderMargin)
         }
 
