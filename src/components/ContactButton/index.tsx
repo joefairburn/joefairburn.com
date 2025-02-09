@@ -1,7 +1,6 @@
 import { useMeasure } from '@uidotdev/usehooks'
-import { motion, type Variants } from 'motion/react'
 import { Send } from 'lucide-react'
-import { cursorContent } from '../../store/cursorAtom'
+import { motion, type Variants } from 'motion/react'
 
 const iconVariants = {
   hover: { rotate: 45, x: '-20%' }
@@ -34,8 +33,6 @@ export const ContactButton = () => {
       initial='initial'
       variants={buttonVariants}
       whileTap={{ scale: 0.95 }}
-      onMouseOver={() => cursorContent.set('Contact me')}
-      onMouseLeave={() => cursorContent.set(null)}
     >
       <motion.span
         className='block text-nowrap pr-2'

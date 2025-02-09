@@ -36,7 +36,7 @@ export const SpotifyCard = ({
     : 'Currently playing'
 
   return (
-    <div className='flex items-center gap-4'>
+    <div className='flex items-center gap-4 bg-[#191919] border border-neutral-800 shadow-md p-4 rounded-md'>
       <img className='size-16 rounded-sm opacity-80' src={image} alt={name} />
       <div className='flex flex-col'>
         <a

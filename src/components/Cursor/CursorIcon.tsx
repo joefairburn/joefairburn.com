@@ -16,6 +16,7 @@ export const CursorIcon = ({
       initial={{ opacity: 0, scale: 0 }}
       animate={{ opacity: 1, scale: isMouseDown ? 0.8 : 1 }}
       exit={{ opacity: 0, scale: 0 }}
+      transition={{ duration: 0.1 }}
       viewBox='-2 -2 28 28'
       fill='black'
       stroke='currentColor'

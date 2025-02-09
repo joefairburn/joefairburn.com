@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { MotionConfig } from 'motion/react'
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { CursorIcon } from './CursorIcon'
 import { CursorPopup } from './CursorPopup'
 import { CursorProvider } from './providers/CursorProvider'

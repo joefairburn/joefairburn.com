@@ -5,6 +5,7 @@ import { DynamicCardDemo } from '../components/DynamicCard/Demo';
 import Sidebar from '../components/Sidebar.astro';
 import { SteppedCard } from '../components/SteppedCard';
 import { Toolbar } from '../components/Toolbar';
+import { VoiceWave } from '../components/VoiceWave';
 import Layout from '../layouts/Layout.astro';
 const padding = "p-8";
 ---
@@ -16,11 +17,16 @@ const padding = "p-8";
 		<section class={"@container w-full"}>
 			<div class="flex flex-col w-full gap-4 items-start justify-start flex-grow @4xl:flex-row">
 				<div class="flex flex-col gap-4">
-					<ComponentWrapper title="Currency Input" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Sed ut purus eget sapien. Sed ut purus eget sapien." technologies={["React", "TypeScript", "Tailwind CSS"]}>
+					<ComponentWrapper title="Voice Wave" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Sed ut purus eget sapien. Sed ut purus eget sapien." technologies={["React", "TypeScript", "Tailwind CSS"]}>
+						<div class="w-full min-h-24 flex items-center justify-center">
+							<VoiceWave client:visible />
+						</div>
+					</ComponentWrapper>
+					<!-- <ComponentWrapper title="Currency Input" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Sed ut purus eget sapien. Sed ut purus eget sapien." technologies={["React", "TypeScript", "Tailwind CSS"]}>
 						<div class="w-full min-h-24 flex items-center justify-center">
 							<CurrencyInput client:visible />
 						</div>
-					</ComponentWrapper>
+					</ComponentWrapper> -->
 					<ComponentWrapper title="Stepped Card" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Sed ut purus eget sapien. Sed ut purus eget sapien." technologies={["React", "TypeScript", "Tailwind CSS"]}>
 						<div class="relative w-full min-h-128 flex items-center justify-center">
 							<SteppedCard client:visible />
