@@ -2,9 +2,11 @@ import {
   createContext,
   type ReactNode,
   type RefObject,
+  useCallback,
   useContext,
   useEffect,
-  useState
+  useState,
+  useRef
 } from 'react'
 
 interface CursorContextType {
@@ -13,6 +15,7 @@ interface CursorContextType {
   isVisible: boolean
   cursorType: string
   isMouseDown: boolean
+  targetRef: RefObject<HTMLElement>
 }
 
 const CursorContext = createContext<CursorContextType | undefined>(undefined)
@@ -31,11 +34,25 @@ export const CursorProvider = ({
   const [isVisible, setIsVisible] = useState(true)
   const [cursorType, setCursorType] = useState<string>('default')
   const [isMouseDown, setIsMouseDown] = useState(false)
+  const targetRef = useRef<HTMLElement | null>(null)
 
-  useEffect(() => {
-    const updatePosition = (e: MouseEvent) => {
+  const updatePosition = useCallback(
+    (e: MouseEvent) => {
+      console.log(targetRef.current)
+      let newPos = {
+        x: `calc(${e.clientX}px - 50%)`,
+        y: `calc(${e.clientY}px - 50%)`
+      }
+      // if (cursorType === 'text') {
+      //   const targetRect = targetRef.current?.getBoundingClientRect()
+      //   if (targetRect) {
+      //     // Not sure if this is worth doing? Doesn't feel quite right.
+      //     newPos.y = `calc(${targetRect.y + targetRect.height / 2}px - 50%)`
+      //   }
+      // }
+
       if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`
+        cursorRef.current.style.transform = `translate(${newPos.x}, ${newPos.y})`
       }
 
       // Prevent the popup from being clipped by the viewport
@@ -64,8 +81,11 @@ export const CursorProvider = ({
 
         popup.style.transform = `translate(${x}px, ${y}px)`
       }
-    }
+    },
+    [cursorRef, popupRef, cursorType, targetRef]
+  )
 
+  useEffect(() => {
     const handleMouseLeave = () => {
       setIsVisible(false)
     }
@@ -86,13 +106,22 @@ export const CursorProvider = ({
       const target = e.target as HTMLElement
       let cursor = 'default'
       if (
-        target.tagName.toLowerCase() === 'button' ||
-        target.tagName.toLowerCase() === 'a' ||
-        target.closest('button') ||
-        target.closest('a')
+        target.matches('button, a, [role="button"]') ||
+        target.closest('button, a, [role="button"]')
       ) {
         cursor = 'pointer'
       }
+
+      if (target.matches('input, textarea')) {
+        cursor = 'text'
+      }
+
+      if (target.matches('p, h1, h2, h3, h4, h5, h6')) {
+        cursor = 'text'
+      }
+
+      targetRef.current = target
+
       setCursorType(cursor)
     }
 
@@ -112,10 +141,17 @@ export const CursorProvider = ({
       document.body.removeEventListener('mouseleave', handleMouseLeave)
       document.body.removeEventListener('mouseenter', handleMouseEnter)
     }
-  }, [])
+  }, [updatePosition])
   return (
     <CursorContext.Provider
-      value={{ cursorRef, popupRef, isVisible, cursorType, isMouseDown }}
+      value={{
+        cursorRef,
+        popupRef,
+        isVisible,
+        cursorType,
+        isMouseDown,
+        targetRef
+      }}
     >
       {children}
     </CursorContext.Provider>

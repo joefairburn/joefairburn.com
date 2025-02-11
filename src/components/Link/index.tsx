@@ -31,7 +31,7 @@ export const Link = ({
     <a
       href={href}
       target={target}
-      className={clsx(className)}
+      className={clsx('inline-block h-full', className)}
       {...props}
       onMouseEnter={() =>
         $cursor.set({
