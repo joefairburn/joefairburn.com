@@ -38,7 +38,6 @@ export const CursorProvider = ({
 
   const updatePosition = useCallback(
     (e: MouseEvent) => {
-      console.log(targetRef.current)
       let newPos = {
         x: `calc(${e.clientX}px - 50%)`,
         y: `calc(${e.clientY}px - 50%)`

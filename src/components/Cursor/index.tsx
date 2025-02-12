@@ -15,7 +15,7 @@ export const Cursor = () => {
         <div
           ref={cursorRef}
           className={clsx(
-            'size-6 fixed top-0 left-0 pointer-events-none z-50 transition-[opacity] duration-200 ease-easy overflow-visible flex items-center justify-center'
+            'size-5 fixed top-0 left-0 pointer-events-none z-50 transition-[opacity] duration-200 ease-easy overflow-visible flex items-center justify-center'
           )}
         >
           <CursorIcon cursorRef={cursorRef} />
