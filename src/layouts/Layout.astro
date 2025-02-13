@@ -2,11 +2,14 @@
 import '@fontsource-variable/inter';
 import { Cursor } from '../components/Cursor';
 import { Nav } from '../components/Nav';
+import { ClientRouter } from 'astro:transitions';
 interface Props {
 	title: string;
 }
 
 const { title } = Astro.props;
+const currentPath = Astro.url.pathname
+
 ---
 
 <!doctype html>
@@ -17,9 +20,10 @@ const { title } = Astro.props;
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<title>{title}</title>
+    <ClientRouter />
 	</head>
 	<body class="bg-[#191919] text-white font-sans p-8 min-h-screen">
-    <Nav client:visible />
+    <Nav currentPath={currentPath} client:load />
     <!-- <Cursor client:visible /> -->
 		<slot />
     <Cursor client:only />

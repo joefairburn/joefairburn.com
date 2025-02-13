@@ -1,24 +1,17 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import basicSsl from '@vitejs/plugin-basic-ssl'
 
 import tailwind from '@astrojs/tailwind';
 
 import react from '@astrojs/react';
 
-import vercel from '@astrojs/vercel/serverless';
+
+import vercel from '@astrojs/vercel';
+
 
 // https://astro.build/config
 export default defineConfig({
   vite: {
-    plugins: [basicSsl({
-      /** name of certification */
-      name: 'localhost',
-      /** custom trust domains */
-      domains: ['*.localhost'],
-      /** custom certification directory */
-      certDir: './certificates'
-    })],
     server: {
       https: true,
     },
@@ -27,5 +20,4 @@ export default defineConfig({
   integrations: [tailwind(), react()],
   output: 'server',
   adapter: vercel(),
-  viewTransitions: true,
 });

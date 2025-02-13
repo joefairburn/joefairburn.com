@@ -4,7 +4,7 @@ import { useMeasure } from '@uidotdev/usehooks'
 import clsx from 'clsx'
 import { AnimatePresence, motion, MotionConfig } from 'motion/react'
 import { ChevronLeft, X } from 'lucide-react'
-import { useState, type ReactNode } from 'react'
+import { useState, type CSSProperties, type ReactNode } from 'react'
 import { DynamicCardProvider, useDynamicCard } from './DynamicCardProvider'
 
 const Header = ({
@@ -70,11 +70,13 @@ const DynamicCardChild = () => {
   return (
     <MotionConfig transition={{ ease: [0.25, 0.1, 0.25, 1], duration: 0.2 }}>
       <motion.div
-        style={{
-          '--width': `${width}px`,
-          // 48 = height of header
-          '--height': `${height}px`
-        }}
+        style={
+          {
+            '--width': `${width}px`,
+            // 48 = height of header
+            '--height': `${height}px`
+          } as CSSProperties
+        }
         animate={{
           '--height': `${height}px`
         }}

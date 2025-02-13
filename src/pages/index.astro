@@ -5,6 +5,7 @@ import Layout from '../layouts/Layout.astro';
 import { getSpotifyData } from '../lib/spotify';
 
 const spotifyData = await getSpotifyData();
+export const prerender = false;
 ---
 
 <Layout title="Welcome to Astro.">

@@ -66,7 +66,7 @@ export const CursorIcon = ({
         )}
       </AnimatePresence>
 
-      <LinkHighlight targetRef={targetRef} isLink={isLink} />
+      {/* <LinkHighlight targetRef={targetRef} isLink={isLink} /> */}
     </MotionConfig>
   )
 }
