@@ -11,12 +11,6 @@ import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
-  vite: {
-    server: {
-      https: true,
-    },
-  },
-
   integrations: [tailwind(), react()],
   output: 'server',
   adapter: vercel(),
