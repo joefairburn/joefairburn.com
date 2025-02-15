@@ -1,3 +1,5 @@
+'use client'
+
 import clsx from 'clsx'
 import { Portal } from '@radix-ui/react-portal'
 import { AnimatePresence, motion, type Transition } from 'motion/react'
@@ -44,6 +46,7 @@ const transition: Transition = {
 export const LinkHighlight = ({ targetRef, isLink }: LinkHighlightProps) => {
   const rect = targetRef.current?.getBoundingClientRect()
 
+  if (!rect) return null
   return (
     <Portal container={document.body} asChild>
       <AnimatePresence>

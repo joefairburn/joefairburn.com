@@ -1,3 +1,5 @@
+'use client'
+
 import { useMeasure } from '@uidotdev/usehooks'
 import { useStep } from './StepsProvider'
 import { AnimatePresence, motion } from 'motion/react'

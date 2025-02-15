@@ -3,16 +3,16 @@ import {
   type RecentlyPlayedTracksPage
 } from '@spotify/web-api-ts-sdk'
 import axios from 'axios'
-const clientId = import.meta.env.SPOTIFY_CLIENT_ID
-const clientSecret = import.meta.env.SPOTIFY_CLIENT_SECRET
-const refreshToken = import.meta.env.SPOTIFY_REFRESH_TOKEN
+const clientId = process.env.SPOTIFY_CLIENT_ID
+const clientSecret = process.env.SPOTIFY_CLIENT_SECRET
+const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN
 
 const getAccessToken = async (): Promise<string> => {
   const tokenUrl = 'https://accounts.spotify.com/api/token'
 
   const requestData = new URLSearchParams({
     grant_type: 'refresh_token',
-    refresh_token: refreshToken
+    refresh_token: refreshToken || ''
   }).toString()
 
   const tokenResponse = await axios.post(tokenUrl, requestData, {

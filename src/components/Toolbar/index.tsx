@@ -1,3 +1,5 @@
+'use client'
+
 import { useMeasure } from '@uidotdev/usehooks'
 import clsx from 'clsx'
 import { motion } from 'motion/react'

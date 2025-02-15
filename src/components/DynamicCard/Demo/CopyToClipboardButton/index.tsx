@@ -1,3 +1,5 @@
+'use client'
+
 import { AnimatePresence, motion } from 'motion/react'
 import { CheckIcon, CopyIcon } from 'lucide-react'
 import { useState, type ReactNode } from 'react'

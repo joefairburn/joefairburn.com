@@ -7,54 +7,6 @@ import { ChevronLeft, X } from 'lucide-react'
 import { useState, type CSSProperties, type ReactNode } from 'react'
 import { DynamicCardProvider, useDynamicCard } from './DynamicCardProvider'
 
-const Header = ({
-  children,
-  className
-}: {
-  children: ReactNode
-  className?: string
-}) => {
-  const { history, currentPage, goBack } = useDynamicCard()
-  return (
-    <div className={clsx('relative w-full text-gray-500 h-10', className)}>
-      <motion.button
-        key='back-button'
-        className='absolute left-6 top-1/2 w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded-full'
-        // Override the transform: none set by Framer Motion
-        style={{ translateY: '-50%' }}
-        type='button'
-        onClick={goBack}
-        initial={{ opacity: 0, x: -2 }}
-        animate={
-          history.length > 1 ? { opacity: 1, x: 0 } : { opacity: 0, x: -2 }
-        }
-        transition={{ duration: 0.2 }}
-        disabled={history.length <= 1}
-      >
-        <ChevronLeft />
-      </motion.button>
-      <AnimatePresence initial={false} mode='popLayout'>
-        <motion.h3
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          key={currentPage.key}
-          transition={{ duration: 0.1 }}
-          className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl font-bold text-black text-center'
-        >
-          {children}
-        </motion.h3>
-      </AnimatePresence>
-      <button
-        className='absolute right-6 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded-full'
-        type='button'
-      >
-        <X size={24} />
-      </button>
-    </div>
-  )
-}
-
 const DynamicCardChild = () => {
   const { history } = useDynamicCard()
   const [ref, { height, width }] = useMeasure()
@@ -91,14 +43,14 @@ const DynamicCardChild = () => {
         )}
         onTransitionEnd={() => setIsInitial(false)}
       >
-        <Header
+        {/* <Header
           className={clsx(
             'relative w-[var(--width)] z-50 h-6 px-6 ease-easy duration-200 mt-6',
             !isInitial && 'transition-[width]'
           )}
         >
           {currentComponent?.title}
-        </Header>
+        </Header> */}
         <div className='z-10 absolute w-full h-full left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center pointer-events-none'>
           <div className='w-full h-full min-w-[100px] min-h-[100px] pointer-events-auto'>
             <div ref={ref} className='w-fit h-fit p-6 pt-20'>

@@ -1,3 +1,5 @@
+'use client'
+
 const audioFile = '/audio/audio.mp3'
 
 import { useEffect, useRef, useState } from 'react'

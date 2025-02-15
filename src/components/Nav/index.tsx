@@ -1,6 +1,8 @@
 'use client'
 import clsx from 'clsx'
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
 const baseTransition = {
@@ -30,25 +32,29 @@ const links = [
   { href: '/components', label: 'Components' }
 ]
 
-export const Nav = ({ currentPath }: { currentPath: string }) => {
-  const [hoveredLink, setHoveredLink] = useState<string | null>(currentPath)
+export const Nav = () => {
+  const pathname = usePathname()
+  const [hoveredLink, setHoveredLink] = useState<string | null>(null)
+
+  const selectedLink = hoveredLink ?? pathname
+
   return (
     <LayoutGroup>
       <nav className='max-w-2xl mx-auto mb-16 flex gap-4 text-base text-neutral-400 font-light relative'>
         {links.map((link) => (
-          <a
+          <Link
             key={link.href}
             className={clsx(
               'px-2 py-1 relative',
-              currentPath === link.href && 'text-white'
+              pathname === link.href && 'text-white'
             )}
             href={link.href}
             onMouseEnter={() => setHoveredLink(link.href)}
-            onMouseLeave={() => setHoveredLink(currentPath)}
+            onMouseLeave={() => setHoveredLink(null)}
           >
             {link.label}
-            {hoveredLink === link.href && (
-              <motion.span
+            {selectedLink === link.href && (
+              <motion.div
                 layoutId='hoverBackground'
                 className='-z-10 absolute inset-0 bg-amber-200/10 pointer-events-none rounded-md overflow-visible inline-block'
                 transition={{
@@ -56,11 +62,11 @@ export const Nav = ({ currentPath }: { currentPath: string }) => {
                   mass: 0.2,
                   damping: 10,
                   stiffness: 75,
-                  delay: 0.2
+                  delay: hoveredLink ? 0.2 : 0
                 }}
               />
             )}
-          </a>
+          </Link>
         ))}
       </nav>
     </LayoutGroup>

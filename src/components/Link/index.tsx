@@ -1,49 +1,62 @@
-import clsx from 'clsx'
-import { cursorContent } from '../../store/cursorAtom'
+'use client'
 
-const LinkCard = ({
-  image,
-  children
-}: {
-  image?: string
+import { useRef } from 'react'
+import { useCursor } from '../../store/cursorContext'
+import { LinkHighlight } from '../Cursor/LinkHighlight'
+
+interface Props {
+  href: string
   children: React.ReactNode
-}) => {
-  return (
-    <div className='min-w-96 flex flex-col justify-center'>
-      {image ? <img loading='lazy' src={image} /> : null}
-      <span className='text-xs text-neutral-400 text-wrap leading-normal p-4'>
-        {children}
-      </span>
-    </div>
-  )
+  target?: string
+  className?: string
+  image?: string
+  description?: string
 }
+
 export const Link = ({
   href,
   children,
-  className = '',
-  target = '_blank',
+  target,
+  className,
   image,
-  description,
-  ...props
-}: React.ComponentProps<'a'> & { image?: string; description?: string }) => {
-  const $cursor = cursorContent
+  description
+}: Props) => {
+  const ref = useRef<HTMLAnchorElement>(null)
+  const { setContent } = useCursor()
+
   return (
-    <a
-      href={href}
-      target={target}
-      className={clsx('inline-block h-full', className)}
-      {...props}
-      onMouseEnter={() =>
-        $cursor.set({
-          content: image ? (
-            <LinkCard image={image}>{description}</LinkCard>
-          ) : null,
-          className: 'shadow-lg'
-        })
-      }
-      onMouseLeave={() => $cursor.set({ content: null })}
-    >
-      {children}
-    </a>
+    <>
+      <a
+        ref={ref}
+        href={href}
+        target={target}
+        className={className}
+        onMouseEnter={() => {
+          if (image) {
+            setContent({
+              content: (
+                <div className='flex flex-row gap-4 p-4'>
+                  <img
+                    src={image}
+                    alt={description}
+                    className='w-24 h-24 rounded-lg'
+                  />
+                  <p className='text-sm text-neutral-400 max-w-48'>
+                    {description}
+                  </p>
+                </div>
+              ),
+              className: 'ml-4'
+            })
+          }
+        }}
+        onMouseLeave={() => {
+          setContent({ content: null })
+        }}
+      >
+        {children}
+      </a>
+      <LinkHighlight targetRef={ref} isLink={true} />
+    </>
   )
 }

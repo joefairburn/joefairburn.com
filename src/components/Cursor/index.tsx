@@ -1,3 +1,5 @@
+'use client'
+
 import clsx from 'clsx'
 import { MotionConfig } from 'motion/react'
 import { useRef } from 'react'
