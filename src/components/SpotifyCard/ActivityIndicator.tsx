@@ -1,17 +1,39 @@
 import clsx from 'clsx'
+import { formatDistanceToNow } from 'date-fns'
+import { Skeleton } from '../Skeleton'
+
+const ActivityContainer = ({ children }: { children: React.ReactNode }) => {
+  return <div className='flex items-center gap-2'>{children}</div>
+}
 
 export const ActivityIndicator = ({
-  currentlyPlaying,
-  children
+  hasLoaded,
+  playedAt
 }: {
-  currentlyPlaying: boolean
-  children: React.ReactNode
+  hasLoaded: boolean
+  playedAt: string | null
 }) => {
-  const dotColor = currentlyPlaying ? 'bg-green-600' : 'bg-gray-600'
+  if (!hasLoaded) {
+    return (
+      <ActivityContainer>
+        <Skeleton className='w-32 h-3' />
+      </ActivityContainer>
+    )
+  }
+  const isCurrentlyPlaying = playedAt === null
+
+  const dotColor = isCurrentlyPlaying ? 'bg-green-600' : 'bg-gray-600'
+
+  const activityText = isCurrentlyPlaying
+    ? 'Currently playing'
+    : `played ${formatDistanceToNow(new Date(playedAt), {
+        addSuffix: true
+      })}`
+
   return (
-    <div className='flex items-center gap-2'>
+    <ActivityContainer>
       <div className={clsx('size-2 rounded-full', dotColor)} />
-      <span className='text-xs text-gray-600'>{children}</span>
-    </div>
+      <span className='text-xs text-gray-600'>{activityText}</span>
+    </ActivityContainer>
   )
 }

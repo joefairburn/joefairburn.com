@@ -52,6 +52,7 @@ const getRecentlyPlayed = async (accessToken: string) => {
 }
 
 export const getSpotifyData = async () => {
+  'use cache'
   try {
     const accessToken = await getAccessToken()
 

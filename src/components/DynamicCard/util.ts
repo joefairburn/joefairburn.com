@@ -1,3 +1,7 @@
+/* Added a module-level counter for deterministic key generation */
+let idCounter = 0;
+
 export const getKey = (key: string) => {
-	return Math.random().toString(36).substring(2, 15);
+	idCounter++;
+	return `${key}-${idCounter}`;
 };
