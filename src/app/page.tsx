@@ -1,6 +1,10 @@
+import { Suspense } from 'react'
 import { Link } from '../components/Link'
 import { SpotifyCard } from '../components/SpotifyCard'
 import { getSpotifyData } from '../lib/spotify'
+import { CurrentlyPlaying } from './CurrentlyPlaying'
+
+export const experimental_ppr = true
 
 async function getData() {
   const spotifyData = await getSpotifyData()
@@ -8,8 +12,6 @@ async function getData() {
 }
 
 export default async function Home() {
-  const { spotifyData } = await getData()
-
   return (
     <main className='max-w-2xl mx-auto'>
       <section className='@container w-full'>
@@ -36,7 +38,9 @@ export default async function Home() {
             </p>
           </div>
         </div>
-        <SpotifyCard spotifyData={spotifyData} />
+        <Suspense fallback={<SpotifyCard spotifyData={null} />}>
+          <CurrentlyPlaying />
+        </Suspense>
       </section>
     </main>
   )

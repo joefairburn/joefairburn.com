@@ -12,21 +12,6 @@ const baseTransition = {
   bounce: 10
 }
 
-const xTransition = {
-  ...baseTransition,
-  type: 'spring',
-  mass: 0.2,
-  damping: 10,
-  stiffness: 75
-}
-
-const yTransition = {
-  ...baseTransition,
-  type: 'spring',
-  mass: 1,
-  damping: 10
-}
-
 const links = [
   { href: '/', label: 'Home' },
   { href: '/components', label: 'Components' }
