@@ -1,15 +1,7 @@
 import { Suspense } from 'react'
 import { Link } from '../components/Link'
 import { SpotifyCard } from '../components/SpotifyCard'
-import { getSpotifyData } from '../lib/spotify'
 import { CurrentlyPlaying } from './CurrentlyPlaying'
-
-export const experimental_ppr = true
-
-async function getData() {
-  const spotifyData = await getSpotifyData()
-  return { spotifyData }
-}
 
 export default async function Home() {
   return (

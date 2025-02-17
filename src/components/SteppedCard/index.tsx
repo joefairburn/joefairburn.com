@@ -1,4 +1,3 @@
-'use client'
 import { MotionConfig } from 'motion/react'
 import { StepContent, StepFooter, StepHeader, Steps } from './Steps'
 import { stepContent } from './fixtures'

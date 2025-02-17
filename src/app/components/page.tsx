@@ -4,8 +4,7 @@ import { Toolbar } from '../../components/Toolbar'
 import { VoiceWave } from '../../components/VoiceWave'
 import { ComponentWrapper } from './ComponentWrapper'
 
-export default async function Components() {
-  'use cache'
+export default function Components() {
   return (
     <main className='flex flex-col xl:flex-row items-start justify-between min-h-screen max-w-2xl mx-auto'>
       <section className='@container w-full'>

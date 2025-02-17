@@ -30,7 +30,7 @@ export const Nav = () => {
           <Link
             key={link.href}
             className={clsx(
-              'px-2 py-1 relative',
+              'px-2 py-1 relative transition-colors duration-300',
               pathname === link.href && 'text-white'
             )}
             href={link.href}

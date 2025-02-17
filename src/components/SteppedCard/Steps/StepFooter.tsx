@@ -1,17 +1,10 @@
 'use client'
 
-import clsx from 'clsx'
-import { useStep } from './StepsProvider'
-import {
-  ArrowDownIcon,
-  ArrowDownLeft,
-  ArrowRightIcon,
-  CornerDownLeft,
-  CornerDownLeftIcon,
-  CornerDownRightIcon
-} from 'lucide-react'
-import { AnimatePresence, motion } from 'motion/react'
 import { useMeasure } from '@uidotdev/usehooks'
+import clsx from 'clsx'
+import { ArrowRightIcon, CornerDownLeft } from 'lucide-react'
+import { AnimatePresence, motion } from 'motion/react'
+import { useStep } from './StepsProvider'
 
 const StepPicker = () => {
   const { steps, currentStepIndex, setCurrentStep } = useStep()
