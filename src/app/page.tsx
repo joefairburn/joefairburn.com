@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { Link } from '../components/Link'
+import { HoverLink } from '../components/HoverLink'
 import { SpotifyCard } from '../components/SpotifyCard'
 import { CurrentlyPlaying } from './CurrentlyPlaying'
 
@@ -14,7 +14,7 @@ export default async function Home() {
             </h1>
             <p className='font-light text-base text-neutral-400 w-fit'>
               I'm a frontend engineer at{' '}
-              <Link
+              <HoverLink
                 href='https://uppbeat.io'
                 target='_blank'
                 className='text-uppbeat font-medium underline'
@@ -22,7 +22,7 @@ export default async function Home() {
                 description='Uppbeat makes content creation more accessible, and aims to provide high-quality content for creators, in a way which works for artists.'
               >
                 Uppbeat
-              </Link>
+              </HoverLink>
               .
             </p>
             <p className='font-light text-base text-neutral-400 text-wrap max-w-prose'>

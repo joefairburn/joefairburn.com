@@ -19,15 +19,6 @@ export default function Components() {
                 <VoiceWave />
               </div>
             </ComponentWrapper>
-            <ComponentWrapper
-              title='Stepped Card'
-              description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Sed ut purus eget sapien. Sed ut purus eget sapien.'
-              technologies={['React', 'TypeScript', 'Tailwind CSS']}
-            >
-              <div className='relative w-full min-h-128 flex items-center justify-center'>
-                <SteppedCard />
-              </div>
-            </ComponentWrapper>
           </div>
           <div className='flex flex-col gap-4'>
             <ComponentWrapper
@@ -37,15 +28,6 @@ export default function Components() {
             >
               <div className='relative w-full min-h-96 flex items-center justify-center'>
                 <Toolbar />
-              </div>
-            </ComponentWrapper>
-            <ComponentWrapper
-              title='Dynamic Card'
-              description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Sed ut purus eget sapien. Sed ut purus eget sapien.'
-              technologies={['React', 'TypeScript', 'Tailwind CSS']}
-            >
-              <div className='relative w-full min-h-96 flex items-center justify-center'>
-                <DynamicCardDemo />
               </div>
             </ComponentWrapper>
           </div>

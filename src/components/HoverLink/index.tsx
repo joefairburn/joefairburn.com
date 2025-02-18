@@ -13,7 +13,7 @@ interface Props {
   description?: string
 }
 
-export const Link = ({
+export const HoverLink = ({
   href,
   children,
   target,
@@ -56,7 +56,6 @@ export const Link = ({
       >
         {children}
       </a>
-      <LinkHighlight targetRef={ref} isLink={true} />
     </>
   )
 }
