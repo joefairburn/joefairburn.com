@@ -1,8 +1,8 @@
 'use client'
 
+import Image from 'next/image'
 import { useRef } from 'react'
 import { useCursor } from '../../store/cursorContext'
-import { LinkHighlight } from '../Cursor/LinkHighlight'
 
 interface Props {
   href: string
@@ -35,13 +35,15 @@ export const HoverLink = ({
           if (image) {
             setContent({
               content: (
-                <div className='flex flex-row gap-4 p-4'>
-                  <img
+                <div className='flex flex-col min-w-80'>
+                  <Image
                     src={image}
-                    alt={description}
-                    className='w-24 h-24 rounded-lg'
+                    alt={description ?? ''}
+                    className='w-full h-full object-cover'
+                    width={893}
+                    height={476}
                   />
-                  <p className='text-sm text-neutral-400 max-w-48'>
+                  <p className='text-xs text-neutral-400 w-full text-wrap p-4'>
                     {description}
                   </p>
                 </div>

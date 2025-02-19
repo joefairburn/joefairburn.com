@@ -47,7 +47,7 @@ export const Nav = () => {
                   mass: 0.2,
                   damping: 10,
                   stiffness: 75,
-                  delay: hoveredLink ? 0.2 : 0
+                  delay: hoveredLink ? 0.1 : 0
                 }}
               />
             )}
