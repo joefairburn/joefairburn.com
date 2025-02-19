@@ -6,13 +6,14 @@ const ActivityContainer = ({ children }: { children: React.ReactNode }) => {
   return <div className='flex items-center gap-2'>{children}</div>
 }
 
-export const ActivityIndicator = ({
+export const ActivityIndicator = async ({
   hasLoaded,
   playedAt
 }: {
   hasLoaded: boolean
   playedAt: string | null
 }) => {
+  'use cache'
   if (!hasLoaded) {
     return (
       <ActivityContainer>
