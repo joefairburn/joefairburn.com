@@ -20,8 +20,6 @@ export const CursorIcon = ({
 }) => {
   const { isMouseDown, cursorType, isVisible, targetRef } = useCursor()
 
-  const isLink = targetRef.current?.matches('a')
-
   const targetHeight =
     cursorType === 'text'
       ? parseInt(window.getComputedStyle(targetRef.current!).lineHeight)
@@ -58,7 +56,7 @@ export const CursorIcon = ({
             transition={{
               duration: 0.3,
               ease: 'circOut',
-              delay: 0.1
+              delay: 0.05
             }}
           >
             <circle cx='50%' cy='50%' r='50%' fill='none' />
