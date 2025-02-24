@@ -7,7 +7,7 @@ import { getTrackDetails } from './utils'
 
 const CardContainer = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className='flex items-center gap-4 bg-[#191919] border border-neutral-800 shadow-md p-4 rounded-md'>
+    <div className='bg-[#191919] border border-neutral-800 shadow-md p-4 rounded-md'>
       {children}
     </div>
   )
@@ -76,14 +76,18 @@ export const SpotifyCard = async ({
 
   return (
     <CardContainer>
-      <CardImage image={item?.album?.images?.[0]?.url} alt={item?.name} />
-      <div className='flex flex-col h-full gap-1'>
-        <CardLink href={item?.external_urls?.spotify}>{item?.name}</CardLink>
-        <ArtistName name={item?.artists?.[0]?.name} />
-        <ActivityIndicator
-          hasLoaded={item !== null}
-          playedAt={item?.played_at}
-        />
+      <div className='flex items-center gap-4 '>
+        <CardImage image={item?.album?.images?.[0]?.url} alt={item?.name} />
+        <div className='flex flex-col h-full gap-1'>
+          <CardLink href={item?.external_urls?.spotify}>
+            {item?.name}
+          </CardLink>
+          <ArtistName name={item?.artists?.[0]?.name} />
+          <ActivityIndicator
+            hasLoaded={item !== null}
+            playedAt={item?.played_at}
+          />
+        </div>
       </div>
     </CardContainer>
   )
