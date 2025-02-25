@@ -8,6 +8,7 @@ const GITHUB_USERNAME = "joefairburn";
  * Fetches events for the authenticated user from the past 7 days.
  */
 async function getUserEvents(): Promise<any[]> {
+  'use cache'
   const events = [];
   const since = new Date();
   since.setDate(since.getDate() - 7);
@@ -38,6 +39,7 @@ async function getUserEvents(): Promise<any[]> {
  * Filters events to get commits and pull requests from the past 7 days.
  */
 async function getCommitsAndPullRequests(): Promise<{ commits: number; pullRequests: number }> {
+  'use cache'
   const events = await getUserEvents();
   const since = new Date();
   since.setDate(since.getDate() - 7);
@@ -61,6 +63,7 @@ async function getCommitsAndPullRequests(): Promise<{ commits: number; pullReque
 }
 
 export async function getTotalCommitsAndPullRequests(): Promise<{ commits: number; pullRequests: number }> {
+  'use cache'
   const { commits, pullRequests } = await getCommitsAndPullRequests();
   return { commits, pullRequests };
 }

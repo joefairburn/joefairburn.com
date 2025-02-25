@@ -1,4 +1,5 @@
 import type { PlaybackState, PlayHistory, Track } from '@spotify/web-api-ts-sdk'
+import { formatDistanceToNow } from 'date-fns'
 
 const isPlaybackState = (data: unknown): data is PlaybackState => {
   return (
@@ -23,7 +24,8 @@ export const getTrackDetails = (context: PlaybackState | PlayHistory) => {
         artists: trackItem.artists,
         album: trackItem.album,
         external_urls: trackItem.external_urls,
-        played_at: null
+        played_at: null,
+        activityText: 'Currently playing'
       }
     }
   }
@@ -36,7 +38,10 @@ export const getTrackDetails = (context: PlaybackState | PlayHistory) => {
       artists: trackItem.artists,
       album: trackItem.album,
       external_urls: trackItem.external_urls,
-      played_at: context.played_at
+      played_at: context.played_at,
+      activityText: `played ${formatDistanceToNow(new Date(context.played_at), {
+        addSuffix: true
+      })}`
     }
   }
 

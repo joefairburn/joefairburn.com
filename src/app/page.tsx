@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { HoverLink } from '../components/HoverLink'
-import { SpotifyCard } from '../components/SpotifyCard'
+import { PersonalCard } from '../components/PeresonalCard'
 import { CurrentlyPlaying } from './CurrentlyPlaying'
 
 export default async function Home() {
@@ -31,7 +31,9 @@ export default async function Home() {
             </p>
           </div>
         </div>
-        <Suspense fallback={<SpotifyCard spotifyData={null} />}>
+        <Suspense
+          fallback={<PersonalCard spotifyData={null} githubData={null} />}
+        >
           <CurrentlyPlaying />
         </Suspense>
       </section>

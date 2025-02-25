@@ -63,8 +63,12 @@ export const getSpotifyData = async () => {
     }
 
     const recentlyPlayed = await getRecentlyPlayed(accessToken)
+    
+    if (recentlyPlayed) {
+      return recentlyPlayed
+    }
 
-    return recentlyPlayed
+    return null
   } catch (error) {
     console.error('Error fetching currently playing song:', error)
   }

@@ -1,13 +1,24 @@
-import { SpotifyCard } from '@/components/SpotifyCard'
+import { PersonalCard } from '@/components/PeresonalCard'
 import { getSpotifyData } from '../lib/spotify'
 import { getTotalCommitsAndPullRequests } from '@/lib/github'
+import { getTrackDetails } from '@/components/PeresonalCard/utils'
 
 export const CurrentlyPlaying = async () => {
+  'use cache'
   const spotifyData = await getSpotifyData()
 
   const { commits, pullRequests } = await getTotalCommitsAndPullRequests()
 
-  console.log(commits, pullRequests)
+  let trackDetails: Record<string, any> | null = null
 
-  return <SpotifyCard spotifyData={spotifyData} />
+  if (spotifyData) {
+    trackDetails = getTrackDetails(spotifyData)
+  }
+
+  return (
+    <PersonalCard
+      spotifyData={trackDetails}
+      githubData={{ commits, pullRequests }}
+    />
+  )
 }

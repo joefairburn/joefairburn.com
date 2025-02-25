@@ -1,19 +1,21 @@
+'use client'
+
 import clsx from 'clsx'
-import { formatDistanceToNow } from 'date-fns'
 import { Skeleton } from '../Skeleton'
 
 const ActivityContainer = ({ children }: { children: React.ReactNode }) => {
   return <div className='flex items-center gap-2'>{children}</div>
 }
 
-export const ActivityIndicator = async ({
+export const ActivityIndicator = ({
   hasLoaded,
-  playedAt
+  played_at,
+  activityText
 }: {
   hasLoaded: boolean
-  playedAt: string | null
+  played_at: string | null
+  activityText?: string
 }) => {
-  'use cache'
   if (!hasLoaded) {
     return (
       <ActivityContainer>
@@ -21,20 +23,19 @@ export const ActivityIndicator = async ({
       </ActivityContainer>
     )
   }
-  const isCurrentlyPlaying = playedAt === null
+  const isCurrentlyPlaying = played_at === null
 
   const dotColor = isCurrentlyPlaying ? 'bg-green-600' : 'bg-gray-600'
 
-  const activityText = isCurrentlyPlaying
-    ? 'Currently playing'
-    : `played ${formatDistanceToNow(new Date(playedAt), {
-        addSuffix: true
-      })}`
+  // Fallback text in case activityText is not provided
+  const displayText =
+    activityText ||
+    (isCurrentlyPlaying ? 'Currently playing' : 'Recently played')
 
   return (
     <ActivityContainer>
       <div className={clsx('size-2 rounded-full', dotColor)} />
-      <span className='text-xs text-gray-600'>{activityText}</span>
+      <span className='text-xs text-gray-600'>{displayText}</span>
     </ActivityContainer>
   )
 }
