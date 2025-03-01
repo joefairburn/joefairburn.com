@@ -1,7 +1,7 @@
-import { PersonalCard } from '@/components/PeresonalCard'
+import { PersonalCard } from '@/components/PersonalCard'
 import { getSpotifyData } from '../lib/spotify'
 import { getTotalCommitsAndPullRequests } from '@/lib/github'
-import { getTrackDetails } from '@/components/PeresonalCard/utils'
+import { getTrackDetails } from '@/components/PersonalCard/utils'
 
 export const CurrentlyPlaying = async () => {
   'use cache'

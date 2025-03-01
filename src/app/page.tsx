@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { HoverLink } from '../components/HoverLink'
-import { PersonalCard } from '../components/PeresonalCard'
+import { PersonalCard } from '../components/PersonalCard'
 import { CurrentlyPlaying } from './CurrentlyPlaying'
 
 export default async function Home() {
