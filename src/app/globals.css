@@ -27,3 +27,8 @@
 * {
   cursor: none !important;
 }
+
+@theme {
+  --font-display: 'Tobias', 'serif';
+  --font-body: 'Matter', 'sans-serif';
+}

@@ -3,7 +3,6 @@ import { Inter } from 'next/font/google'
 import '@fontsource-variable/inter'
 import './globals.css'
 import { Cursor } from '../components/Cursor'
-import { Nav } from '../components/Nav'
 import { CursorProvider } from '../store/cursorContext'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -24,10 +23,9 @@ export default function RootLayout({
         <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
       </head>
       <body
-        className={`${inter.className} bg-[#191919] text-white font-sans p-8 min-h-screen`}
+        className={`${inter.className} bg-[#101010] text-white font-sans p-8 pt-24 min-h-screen`}
       >
         <CursorProvider>
-          <Nav />
           <main>{children}</main>
           <Cursor />
 

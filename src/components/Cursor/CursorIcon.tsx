@@ -1,8 +1,6 @@
-import { AnimatePresence, motion, MotionConfig } from 'motion/react'
-import { useEffect, useId, useState, type RefObject } from 'react'
+import { motion, MotionConfig } from 'motion/react'
+import { type RefObject } from 'react'
 import { useCursor } from './providers/CursorProvider'
-import { Portal } from '@radix-ui/react-portal'
-import { LinkHighlight } from './LinkHighlight'
 
 const getVariants = (height: number | undefined) => ({
   hidden: { opacity: 0, scale: 0 },
@@ -45,24 +43,6 @@ export const CursorIcon = ({
         }
         className='z-40 rounded-full size-full aspect-square backdrop-grayscale backdrop-invert flex items-center justify-center'
       />
-      <AnimatePresence>
-        {isMouseDown && (
-          <motion.svg
-            key='cursor-grab-border'
-            className='absolute z-0 size-full border border-solid border-white rounded-full bg-none'
-            initial={{ opacity: 0, scale: 1.6 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 2 }}
-            transition={{
-              duration: 0.3,
-              ease: 'circOut',
-              delay: 0.05
-            }}
-          >
-            <circle cx='50%' cy='50%' r='50%' fill='none' />
-          </motion.svg>
-        )}
-      </AnimatePresence>
 
       {/* <LinkHighlight targetRef={targetRef} isLink={isLink} /> */}
     </MotionConfig>
