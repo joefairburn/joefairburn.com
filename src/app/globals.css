@@ -16,19 +16,11 @@
   font-style: italic;
   font-display: block;
 }
-
-@font-face {
-  font-family: 'Matter';
-  src: url('/fonts/matter/Matter.woff2') format('woff2');
-  font-weight: normal;
-  font-display: block;
-}
-
 * {
   cursor: none !important;
 }
 
 @theme {
   --font-display: 'Tobias', 'serif';
-  --font-body: 'Matter', 'sans-serif';
+  --font-body: 'Inter', 'sans-serif';
 }

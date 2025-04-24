@@ -4,8 +4,9 @@ import '@fontsource-variable/inter'
 import './globals.css'
 import { Cursor } from '../components/Cursor'
 import { CursorProvider } from '../store/cursorContext'
+import { CSSProperties } from 'react'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'], variable: '--font-body' })
 
 export const metadata: Metadata = {
   title: 'Joe Fairburn',
@@ -23,7 +24,7 @@ export default function RootLayout({
         <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
       </head>
       <body
-        className={`${inter.className} bg-[#101010] text-white font-sans p-8 pt-24 min-h-screen`}
+        className={`bg-[#101010] text-white font-sans p-8 pt-24 min-h-screen`}
       >
         <CursorProvider>
           <main>{children}</main>
