@@ -39,8 +39,8 @@ export const getTrackDetails = (context: PlaybackState | PlayHistory) => {
       album: trackItem.album,
       external_urls: trackItem.external_urls,
       played_at: context.played_at,
-      activityText: `played ${formatDistanceToNow(new Date(context.played_at), {
-        addSuffix: true
+      activityText: `${formatDistanceToNow(new Date(context.played_at), {
+        addSuffix: true,
       })}`
     }
   }

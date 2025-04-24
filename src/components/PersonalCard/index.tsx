@@ -4,6 +4,7 @@ import { motion, useAnimationControls, useMotionValue } from 'motion/react'
 import { useEffect, useState } from 'react'
 import { Skeleton } from '../Skeleton'
 import { ActivityIndicator } from './ActivityIndicator'
+import Image from 'next/image'
 
 const springTransition = {
   type: 'spring',
@@ -12,7 +13,15 @@ const springTransition = {
   mass: 0.5
 } as const
 
-const CardImage = ({ image, alt }: { image: string; alt: string }) => {
+const CardImage = ({
+  image,
+  alt,
+  unoptimized = false
+}: {
+  image: string
+  alt: string
+  unoptimized?: boolean
+}) => {
   const className = 'size-16 rounded-sm'
 
   if (!image) {
@@ -20,7 +29,14 @@ const CardImage = ({ image, alt }: { image: string; alt: string }) => {
   }
 
   return (
-    <img className={clsx(className, 'opacity-80')} src={image} alt={alt} />
+    <Image
+      className={clsx('opacity-80 pointer-events-none', className)}
+      unoptimized={unoptimized}
+      src={image}
+      alt={alt}
+      width={128}
+      height={128}
+    />
   )
 }
 
@@ -80,7 +96,11 @@ const SpotifySection = ({ item }: { item: Record<string, any> | null }) => {
   console.log(item)
   return (
     <div className='flex items-center gap-4'>
-      <CardImage image={item?.album?.images?.[0]?.url} alt={item?.name} />
+      <CardImage
+        image={item?.album?.images?.[0]?.url}
+        alt={item?.name}
+        unoptimized={true}
+      />
       <div className='flex flex-col h-full gap-1'>
         <CardLink href={item?.external_urls?.spotify}>{item?.name}</CardLink>
         <ArtistName name={item?.artists?.[0]?.name} />
@@ -159,12 +179,14 @@ export const PersonalCard = ({
     if (!githubData) return
 
     if (e.key === 'ArrowUp' && activeIndex > 0) {
+      e.preventDefault()
       setActiveIndex(0)
       controls.start({
         y: 0,
         transition: springTransition
       })
     } else if (e.key === 'ArrowDown' && activeIndex < 1) {
+      e.preventDefault()
       setActiveIndex(1)
       controls.start({
         y: -sectionHeight,
@@ -175,7 +197,7 @@ export const PersonalCard = ({
 
   return (
     <div
-      className='bg-[#191919] border border-neutral-800 shadow-md p-4 rounded-md overflow-hidden outline-none focus-visible:ring-1 focus-visible:ring-neutral-400/30 transition-[ring]'
+      className='bg-black border-neutral-800 shadow-md px-4 py-2 rounded-xl overflow-hidden outline-none focus-visible:ring-1 focus-visible:ring-neutral-400/30 transition-[ring]'
       tabIndex={0}
       onKeyDown={handleKeyDown}
     >
@@ -206,15 +228,15 @@ export const PersonalCard = ({
 
         {/* Indicator dots */}
         {githubData && (
-          <div className='absolute bottom-0 left-1/2 transform -translate-x-1/2 flex space-x-1'>
+          <div className='absolute top-1/2 right-2 transform -translate-y-1/2 flex flex-col space-y-1'>
             <div
               className={`h-1 w-1 rounded-full transition-all duration-300 ${
-                activeIndex === 0 ? 'bg-white w-2' : 'bg-gray-500'
+                activeIndex === 0 ? 'bg-white h-2' : 'bg-gray-500'
               }`}
             />
             <div
               className={`h-1 w-1 rounded-full transition-all duration-300 ${
-                activeIndex === 1 ? 'bg-white w-2' : 'bg-gray-500'
+                activeIndex === 1 ? 'bg-white h-2' : 'bg-gray-500'
               }`}
             />
           </div>
