@@ -83,9 +83,10 @@ const CarouselSection = ({
 }) => {
   return (
     <div
-      className={`transition-all duration-300 h-[80px] flex items-center origin-left ${
+      className={clsx(
+        'transition-all duration-300 h-[80px] flex items-center',
         isActive ? 'opacity-100 blur-0' : 'opacity-50 blur-[1px]'
-      }`}
+      )}
     >
       {children}
     </div>
@@ -93,7 +94,6 @@ const CarouselSection = ({
 }
 
 const SpotifySection = ({ item }: { item: Record<string, any> | null }) => {
-  console.log(item)
   return (
     <div className='flex items-center gap-4'>
       <CardImage
