@@ -1,54 +1,123 @@
-# Astro Starter Kit: Basics
+# Personal Portfolio Site
 
-```sh
-npm create astro@latest -- --template basics
+A modern, minimalist personal portfolio site built with Next.js, TypeScript, and Tailwind CSS. This site showcases professional experience, skills, and integrates with external APIs to display real-time data.
+
+## 🚀 Features
+
+- **Modern Next.js App Router Architecture**: Built with Next.js 15 utilizing the latest React features
+- **Server Components**: Utilizes React Server Components for optimal performance
+- **TypeScript**: Fully typed codebase for better developer experience and code quality
+- **Tailwind CSS**: Responsive design with utility-first CSS
+- **API Integrations**:
+  - Spotify API to show currently playing or recently played tracks
+  - GitHub API to display recent activity stats
+- **Accessibility**: ARIA attributes, keyboard navigation, screen reader support
+- **Performance Optimized**: Suspense boundaries, caching strategies, and optimized image loading
+- **Error Handling**: Robust error boundaries and graceful fallbacks
+
+## 📂 Project Structure
+
 ```
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
 /
-├── public/
-│   └── favicon.svg
+├── public/              # Static assets
+│   └── images/          # Image files
 ├── src/
-│   ├── components/
-│   │   └── Card.astro
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── app/             # Next.js App Router
+│   │   ├── components/  # App-specific components
+│   │   ├── page.tsx     # Main page
+│   │   └── layout.tsx   # Root layout
+│   ├── components/      # Shared components
+│   │   ├── Cursor/      # Custom cursor component
+│   │   ├── PersonalCard/# Personal information card
+│   │   ├── Skeleton/    # Loading skeletons
+│   │   └── ...          # Other components
+│   ├── lib/             # Utility functions and API clients
+│   │   ├── github.ts    # GitHub API integration
+│   │   └── spotify.ts   # Spotify API integration
+│   └── store/           # State management
+│       └── cursorContext.tsx  # Cursor state context
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 🔧 Environment Variables
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Create a `.env.local` file in the root directory with the following variables:
 
-Any static assets, like images, can be placed in the `public/` directory.
+```
+# Spotify API
+SPOTIFY_CLIENT_ID=your_spotify_client_id
+SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
+SPOTIFY_REFRESH_TOKEN=your_spotify_refresh_token
 
-## 🧞 Commands
+# GitHub API
+GITHUB_TOKEN=your_github_token
+```
 
-All commands are run from the root of the project, from a terminal:
+## 🚀 Getting Started
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+### Prerequisites
 
-## 👀 Want to learn more?
+- Node.js 18+ (recommended: latest LTS version)
+- pnpm (recommended) or npm
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/yourusername/personal-site.git
+   cd personal-site
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   pnpm install
+   ```
+
+3. Create your `.env.local` with the required environment variables.
+
+4. Start the development server:
+
+   ```bash
+   pnpm dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## 🛠️ Commands
+
+| Command      | Description                          |
+| ------------ | ------------------------------------ |
+| `pnpm dev`   | Start the development server         |
+| `pnpm build` | Build the application for production |
+| `pnpm start` | Start the production server          |
+| `pnpm lint`  | Run ESLint to check code quality     |
+
+## 🧩 API Integrations
+
+### Spotify API
+
+The site integrates with Spotify's API to display your currently playing or recently played tracks. To set this up:
+
+1. Create a Spotify Developer account at [developer.spotify.com](https://developer.spotify.com/)
+2. Create a new application
+3. Add `http://localhost:3000/callback` to the Redirect URIs
+4. Copy the Client ID and Client Secret to your `.env.local` file
+5. Generate a refresh token following [Spotify's authorization guide](https://developer.spotify.com/documentation/general/guides/authorization-guide/)
+
+### GitHub API
+
+GitHub integration shows your recent activity stats:
+
+1. Create a [GitHub Personal Access Token](https://github.com/settings/tokens)
+2. Give it the `repo` and `user` scopes
+3. Add the token to your `.env.local` file
+
+## 📝 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## 📧 Contact
+
+- GitHub: [@joefairburn](https://github.com/joefairburn)
+- LinkedIn: [Joe Fairburn](https://www.linkedin.com/in/joefairburn/)

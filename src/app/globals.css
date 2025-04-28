@@ -24,3 +24,12 @@
   --font-display: 'Tobias', 'serif';
   --font-body: 'Inter', 'sans-serif';
 }
+
+/* Custom selection styles */
+::selection {
+  @apply bg-violet-300 text-black;
+}
+::-moz-selection {
+  /* Code for Firefox */
+  @apply bg-violet-300 text-black;
+}

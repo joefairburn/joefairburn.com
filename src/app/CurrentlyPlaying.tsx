@@ -3,22 +3,39 @@ import { getSpotifyData } from '../lib/spotify'
 import { getTotalCommitsAndPullRequests } from '@/lib/github'
 import { getTrackDetails } from '@/components/PersonalCard/utils'
 
+/**
+ * Server component that fetches Spotify and GitHub data
+ * Returns nothing on error
+ */
 export const CurrentlyPlaying = async () => {
   'use cache'
-  const spotifyData = await getSpotifyData()
 
-  const { commits, pullRequests } = await getTotalCommitsAndPullRequests()
+  try {
+    // Fetch Spotify data
+    const spotifyData = await getSpotifyData()
 
-  let trackDetails: Record<string, any> | null = null
+    // Fetch GitHub stats
+    const { commits, pullRequests } = await getTotalCommitsAndPullRequests()
 
-  if (spotifyData) {
-    trackDetails = getTrackDetails(spotifyData)
+    let trackDetails: Record<string, any> | null = null
+
+    if (spotifyData) {
+      trackDetails = getTrackDetails(spotifyData)
+    }
+
+    return (
+      <PersonalCard
+        spotifyData={trackDetails}
+        githubData={{ commits, pullRequests }}
+      />
+    )
+  } catch (error) {
+    console.error(
+      'Error in CurrentlyPlaying component:',
+      error instanceof Error ? error.message : 'Unknown error'
+    )
+
+    // Return null on error instead of a fallback UI
+    return null
   }
-
-  return (
-    <PersonalCard
-      spotifyData={trackDetails}
-      githubData={{ commits, pullRequests }}
-    />
-  )
 }

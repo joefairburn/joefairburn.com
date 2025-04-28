@@ -5,12 +5,18 @@ import './globals.css'
 import { Cursor } from '../components/Cursor'
 import { CursorProvider } from '../store/cursorContext'
 import { CSSProperties } from 'react'
+import { formatCSP, securityHeaders } from '@/lib/security.config'
+import clsx from 'clsx'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-body' })
 
 export const metadata: Metadata = {
   title: 'Joe Fairburn',
-  description: 'Personal website of Joe Fairburn'
+  description: 'Personal website of Joe Fairburn',
+  other: {
+    'Content-Security-Policy': formatCSP(),
+    ...securityHeaders
+  }
 }
 
 export default function RootLayout({
@@ -22,9 +28,16 @@ export default function RootLayout({
     <html lang='en'>
       <head>
         <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+        <meta
+          name='viewport'
+          content='width=device-width, initial-scale=1.0'
+        />
       </head>
       <body
-        className={`bg-[#101010] text-white font-sans p-8 pt-24 min-h-screen`}
+        className={clsx(
+          'bg-[#101010] text-white font-sans p-8 pt-24 min-h-screen',
+          inter.className
+        )}
       >
         <CursorProvider>
           <main>{children}</main>

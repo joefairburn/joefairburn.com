@@ -3,7 +3,12 @@ import { GridItem } from '../components/GridItem'
 import { PersonalCard } from '../components/PersonalCard'
 import { SectionGrid } from '../components/SectionGrid'
 import { CurrentlyPlaying } from './CurrentlyPlaying'
+import { ErrorBoundary } from '../components/ErrorBoundary'
+import { ExperienceItem } from '../components/ExperienceItem'
 
+/**
+ * Home page component
+ */
 export default async function Home() {
   return (
     <main className='max-w-2xl mx-auto mt-[5vh]'>
@@ -41,94 +46,89 @@ export default async function Home() {
 
             {/* Experience */}
             <SectionGrid title='Experience'>
-              <GridItem
-                label='2023-Present'
-                className='font-normal font-display text-sm text-neutral-300 w-fit'
-              >
-                <p className='font-normal font-body text-sm text-neutral-300 w-fit'>
-                  Uppbeat
-                </p>
-                <p className='font-normal font-body text-sm text-neutral-400 w-fit'>
-                  Crafting thoughtful UIs, scaling the product, and building a
-                  deeper understanding of users.
-                </p>
-              </GridItem>
+              <ExperienceItem
+                dateRange='2023-Present'
+                companyName='Uppbeat'
+                description={
+                  <>
+                    Crafting <strong>thoughtful</strong> and{' '}
+                    <strong>intuitive</strong> UIs that elevate the experience
+                    for content creators. Helped scale our frontend
+                    architecture to support millions of monthly active users,
+                    ensuring <strong>performance</strong> and{' '}
+                    <strong>reliability</strong>.
+                  </>
+                }
+              />
 
               {/* Moonsworth */}
-              <GridItem
-                label='2021-Present'
-                className='font-normal font-display text-sm text-neutral-300 w-fit'
-              >
-                <p className='font-normal font-body text-sm text-neutral-300 w-fit'>
-                  Moonsworth
-                </p>
-                <p className='font-normal font-body text-sm text-neutral-400 w-fit'>
-                  Building Electron based launcher, API's, in-game UI's, and
-                  sites such as{' '}
-                  <a
-                    href='https://wrapped.lunarclient.com'
-                    target='_blank'
-                    className='underline'
-                    rel='noreferrer'
-                  >
-                    Wrapped
-                  </a>{' '}
-                  and{' '}
-                  <a
-                    href='https://www.lunarclient.com'
-                    target='_blank'
-                    className=' underline'
-                    rel='noreferrer'
-                  >
-                    Lunar Client
-                  </a>
-                  .
-                </p>
-              </GridItem>
+              <ExperienceItem
+                dateRange='2021-Present'
+                companyName='Moonsworth'
+                description={
+                  <>
+                    Building Electron based launcher, API's, in-game UI's, and
+                    sites such as{' '}
+                    <a
+                      href='https://wrapped.lunarclient.com'
+                      target='_blank'
+                      className='underline'
+                      rel='noreferrer'
+                      aria-label='Visit Lunar Client Wrapped'
+                    >
+                      Wrapped
+                    </a>{' '}
+                    and{' '}
+                    <a
+                      href='https://www.lunarclient.com'
+                      target='_blank'
+                      className=' underline'
+                      rel='noreferrer'
+                      aria-label='Visit Lunar Client'
+                    >
+                      Lunar Client
+                    </a>
+                    .
+                  </>
+                }
+              />
 
               {/* Evergreen Energy */}
-              <GridItem
-                label='2021-2023'
-                className='font-normal font-display text-sm text-neutral-300 w-fit'
-              >
-                <p className='font-normal font-body text-sm text-neutral-300 w-fit'>
-                  Evergreen Energy
-                </p>
-                <p className='font-normal font-body text-sm text-neutral-400 w-fit'>
-                  Modernised a green energy platform, replacing a legacy PHP
-                  system with Next.js.
-                </p>
-              </GridItem>
+              <ExperienceItem
+                dateRange='2021-2023'
+                companyName='Evergreen Energy'
+                description='Modernised a green energy platform, replacing a legacy PHP
+                  system with Next.js.'
+              />
 
               {/* ilk agency */}
-              <GridItem
-                label='2020-2021'
-                className='font-normal font-display text-sm text-neutral-300 w-fit'
-              >
-                <p className='font-normal font-body text-sm text-neutral-300 w-fit'>
-                  ilk agency
-                </p>
-                <p className='font-normal font-body text-sm text-neutral-400 w-fit'>
-                  Led the shift to JAMstack architecture using Next.js.
-                </p>
-              </GridItem>
+              <ExperienceItem
+                dateRange='2020-2021'
+                companyName='ilk agency'
+                description='Developed and maintained a large range of sites using
+                  Next.js and WordPress as a headless CMS.'
+              />
             </SectionGrid>
 
             {/* Contact */}
             <SectionGrid title='Contact'>
-              <div className='font-normal text-sm text-neutral-300 w-fit row-start-2'>
+              <div className='font-normal text-sm text-neutral-300 w-fit row-start-2 flex gap-2'>
                 <a
                   href='https://github.com/joefairburn'
                   target='_blank'
                   className='font-light underline'
+                  aria-label='View GitHub profile'
                 >
                   GitHub
                 </a>
-
+                <span className='text-neutral-400' aria-hidden='true'>
+                  /
+                </span>
                 <a
                   href='https://www.linkedin.com/in/joefairburn/'
                   target='_blank'
                   className='font-light underline'
+                  aria-label='View LinkedIn profile'
                 >
                   LinkedIn
                 </a>
@@ -137,11 +137,13 @@ export default async function Home() {
           </div>
         </div>
         <div className='mt-16'>
-          <Suspense
-            fallback={<PersonalCard spotifyData={null} githubData={null} />}
-          >
-            <CurrentlyPlaying />
-          </Suspense>
+          <ErrorBoundary silent={true}>
+            <Suspense
+              fallback={<PersonalCard spotifyData={null} githubData={null} />}
+            >
+              <CurrentlyPlaying />
+            </Suspense>
+          </ErrorBoundary>
         </div>
       </section>
     </main>
