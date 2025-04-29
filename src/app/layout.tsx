@@ -13,6 +13,17 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-body' })
 export const metadata: Metadata = {
   title: 'Joe Fairburn',
   description: 'Personal website of Joe Fairburn',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1
+    }
+  },
   other: {
     'Content-Security-Policy': formatCSP(),
     ...securityHeaders
