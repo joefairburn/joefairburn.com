@@ -19,6 +19,7 @@ export const Cursor = () => {
           className={clsx(
             'size-5 fixed top-0 left-0 pointer-events-none z-50 transition-[opacity] duration-200 ease-easy overflow-visible flex items-center justify-center'
           )}
+          aria-hidden='true'
         >
           <CursorIcon cursorRef={cursorRef} />
           <div className='absolute bottom-0 right-0 w-fit h-fit overflow-visible'>
