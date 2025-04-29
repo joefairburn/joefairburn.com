@@ -32,9 +32,26 @@ export const CursorProvider = ({
   popupRef
 }: CursorProviderProps) => {
   const [isVisible, setIsVisible] = useState(true)
+  const [hasInteractedInitially, setHasInteractedInitially] = useState(false)
   const [cursorType, setCursorType] = useState<string>('default')
   const [isMouseDown, setIsMouseDown] = useState(false)
   const targetRef = useRef<HTMLElement | null>(null)
+
+  useEffect(() => {
+    const handleFirstMouseMove = () => {
+      setHasInteractedInitially(true)
+      document.body.style.cursor = 'none'
+      window.removeEventListener('mousemove', handleFirstMouseMove)
+    }
+
+    if (!hasInteractedInitially) {
+      window.addEventListener('mousemove', handleFirstMouseMove)
+    }
+
+    return () => {
+      window.removeEventListener('mousemove', handleFirstMouseMove)
+    }
+  }, [hasInteractedInitially])
 
   const updatePosition = useCallback(
     (e: MouseEvent) => {
@@ -134,8 +151,8 @@ export const CursorProvider = ({
 
     return () => {
       window.removeEventListener('mousemove', updatePosition)
-      window.removeEventListener('click', handleMouseDown)
-      window.removeEventListener('click', handleMouseUp)
+      window.removeEventListener('mousedown', handleMouseDown)
+      window.removeEventListener('mouseup', handleMouseUp)
       window.removeEventListener('mouseover', handleMouseOver)
       document.body.removeEventListener('mouseleave', handleMouseLeave)
       document.body.removeEventListener('mouseenter', handleMouseEnter)
@@ -147,7 +164,7 @@ export const CursorProvider = ({
         cursorRef,
         popupRef,
         isVisible,
-        cursorType,
+        cursorType: hasInteractedInitially ? cursorType : 'hidden',
         isMouseDown,
         targetRef
       }}
