@@ -107,13 +107,14 @@ async function getCommitsAndPullRequests(): Promise<{ commits: number; pullReque
  * Gets the total number of commits and pull requests in the past 7 days.
  * @returns Object containing commit and pull request counts
  */
-export async function getTotalCommitsAndPullRequests(): Promise<{ commits: number; pullRequests: number }> {
+export async function getTotalCommitsAndPullRequests(): Promise<{ commits: number; pullRequests: number; error?: boolean }> {
   'use cache'
   try {
     const { commits, pullRequests } = await getCommitsAndPullRequests();
     return { commits, pullRequests };
   } catch (error) {
     console.error('Error getting GitHub stats:', error instanceof Error ? error.message : 'Unknown error');
-    return { commits: 0, pullRequests: 0 };
+    // Return error object with default counts
+    return { commits: 0, pullRequests: 0, error: true };
   }
 }

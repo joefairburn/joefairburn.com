@@ -96,7 +96,24 @@ const CarouselSection = ({
   )
 }
 
-const SpotifySection = ({ item }: { item: Record<string, any> | null }) => {
+// Define a simple error display component
+const ErrorDisplay = ({ serviceName }: { serviceName: string }) => (
+  <div className='flex items-center justify-center text-xs text-neutral-500 px-4 h-full w-full'>
+    Failed to load {serviceName} data.
+  </div>
+)
+
+const SpotifySection = ({
+  item
+}: {
+  item: (Record<string, any> & { error?: false }) | { error: true } | null
+}) => {
+  // Handle error state
+  if (item && item.error) {
+    return <ErrorDisplay serviceName='Spotify' />
+  }
+
+  // Existing rendering logic (handles null item for loading/skeleton state)
   return (
     <div className='flex items-center gap-4 px-5 w-full'>
       <div className='flex items-center gap-4 py-2 w-full'>
@@ -111,7 +128,8 @@ const SpotifySection = ({ item }: { item: Record<string, any> | null }) => {
           </CardLink>
           <ArtistName name={item?.artists?.[0]?.name} />
           <ActivityIndicator
-            hasLoaded={item !== null}
+            // Pass null if item is null (loading) or error state
+            hasLoaded={item !== null && !item.error}
             played_at={item?.played_at}
             activityText={item?.activityText}
           />
@@ -124,10 +142,24 @@ const SpotifySection = ({ item }: { item: Record<string, any> | null }) => {
 const GithubSection = ({
   githubData
 }: {
-  githubData: { commits: number; pullRequests: number } | null
+  githubData: {
+    commits: number
+    pullRequests: number
+    error?: boolean
+  } | null
 }) => {
-  if (!githubData) return null
+  // Handle error state first
+  if (githubData?.error) {
+    return <ErrorDisplay serviceName='GitHub' />
+  }
 
+  // Handle loading/null state (although parent likely prevents this)
+  if (!githubData) {
+    // Or return a Skeleton component if preferred
+    return null
+  }
+
+  // Now we know githubData is not null and not an error
   return (
     <div className='flex items-center gap-4 px-4 w-full'>
       <div className='flex items-center gap-4 py-2 w-full'>
@@ -146,8 +178,15 @@ export const PersonalCard = ({
   spotifyData,
   githubData
 }: {
-  spotifyData: Record<string, any> | null
-  githubData: { commits: number; pullRequests: number } | null
+  spotifyData:
+    | (Record<string, any> & { error?: false })
+    | { error: true }
+    | null
+  githubData: {
+    commits: number
+    pullRequests: number
+    error?: boolean
+  } | null
 }) => {
   // If the data is a show, return null.
   if (spotifyData && 'show' in spotifyData) {
@@ -267,7 +306,8 @@ export const PersonalCard = ({
               <SpotifySection item={spotifyData} />
             </CarouselSection>
 
-            {githubData && (
+            {/* Only render GitHub section if data exists (incl. error state) */}
+            {githubData !== null && (
               <CarouselSection isActive={activeIndex === 1}>
                 <GithubSection githubData={githubData} />
               </CarouselSection>

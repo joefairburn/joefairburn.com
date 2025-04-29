@@ -128,7 +128,7 @@ const getRecentlyPlayed = async (accessToken: string) => {
  * Gets Spotify data - either currently playing or recently played track
  * @returns Spotify track data or null if unavailable
  */
-export const getSpotifyData = async () => {
+export const getSpotifyData = async (): Promise<(PlaybackState | RecentlyPlayedTracksPage['items'][0] | { error: true }) | null> => {
   'use cache'
   try {
     const accessToken = await getAccessToken()
@@ -148,7 +148,7 @@ export const getSpotifyData = async () => {
     return null
   } catch (error) {
     console.error('Error fetching Spotify data:', error instanceof Error ? error.message : 'Unknown error')
-    // Return null to gracefully handle errors in the UI
-    return null
+    // Return error object instead of null
+    return { error: true };
   }
 }

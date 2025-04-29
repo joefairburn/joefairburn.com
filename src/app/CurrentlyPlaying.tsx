@@ -10,32 +10,21 @@ import { getTrackDetails } from '@/components/PersonalCard/utils'
 export const CurrentlyPlaying = async () => {
   'use cache'
 
-  try {
-    // Fetch Spotify data
-    const spotifyData = await getSpotifyData()
+  // Data fetching functions now handle their own errors and return specific shapes
+  const [spotifyResult, githubResult] = await Promise.all([
+    getSpotifyData(),
+    getTotalCommitsAndPullRequests()
+  ])
 
-    // Fetch GitHub stats
-    const { commits, pullRequests } = await getTotalCommitsAndPullRequests()
+  let trackDetails: Record<string, any> | null | { error: boolean } = null
 
-    let trackDetails: Record<string, any> | null = null
-
-    if (spotifyData) {
-      trackDetails = getTrackDetails(spotifyData)
-    }
-
-    return (
-      <PersonalCard
-        spotifyData={trackDetails}
-        githubData={{ commits, pullRequests }}
-      />
-    )
-  } catch (error) {
-    console.error(
-      'Error in CurrentlyPlaying component:',
-      error instanceof Error ? error.message : 'Unknown error'
-    )
-
-    // Return null on error instead of a fallback UI
-    return null
+  // Process Spotify data only if it's not null and not an error
+  if (spotifyResult && !('error' in spotifyResult)) {
+    trackDetails = getTrackDetails(spotifyResult)
+  } else if (spotifyResult && 'error' in spotifyResult) {
+    trackDetails = { error: true }
   }
+
+  // Pass the results (potentially including error flags) to PersonalCard
+  return <PersonalCard spotifyData={trackDetails} githubData={githubResult} />
 }
