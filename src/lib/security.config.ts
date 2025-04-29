@@ -9,8 +9,10 @@
  */
 export const contentSecurityPolicy = {
   defaultSrc: ["'self'"],
-  scriptSrc: ["'self'", "'unsafe-inline'", "https://analytics.example.com"],
-  styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+  scriptSrc: [
+    "'self'"
+  ],
+  styleSrc: ["'self'", "https://fonts.googleapis.com"],
   imgSrc: ["'self'", "https://i.scdn.co", "data:"],
   fontSrc: ["'self'", "https://fonts.gstatic.com"],
   connectSrc: ["'self'", "https://api.spotify.com", "https://api.github.com"],
@@ -18,27 +20,6 @@ export const contentSecurityPolicy = {
   objectSrc: ["'none'"],
   baseUri: ["'self'"]
 };
-
-/**
- * Formats the CSP object into a string for use in headers
- * @returns Formatted CSP string
- */
-export function formatCSP(): string {
-  return Object.entries(contentSecurityPolicy)
-    .map(([key, values]) => {
-      return `${kebabCase(key)} ${values.join(' ')};`;
-    })
-    .join(' ');
-}
-
-/**
- * Converts camelCase to kebab-case
- * @param str String to convert
- * @returns Kebab-case string
- */
-function kebabCase(str: string): string {
-  return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
-}
 
 /**
  * Security headers configuration

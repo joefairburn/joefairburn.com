@@ -1,12 +1,11 @@
+import { securityHeaders } from '@/lib/security.config'
+import '@fontsource-variable/inter'
+import clsx from 'clsx'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import '@fontsource-variable/inter'
-import './globals.css'
 import { Cursor } from '../components/Cursor'
 import { CursorProvider } from '../store/cursorContext'
-import { CSSProperties } from 'react'
-import { formatCSP, securityHeaders } from '@/lib/security.config'
-import clsx from 'clsx'
+import './globals.css'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-body' })
 
@@ -25,7 +24,6 @@ export const metadata: Metadata = {
     }
   },
   other: {
-    'Content-Security-Policy': formatCSP(),
     ...securityHeaders
   }
 }
