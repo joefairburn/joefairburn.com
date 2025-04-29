@@ -30,42 +30,50 @@ async function getUserEvents(): Promise<any[]> {
   try {
     const octokit = getOctokit();
     const events = [];
-    const since = new Date();
-    since.setDate(since.getDate() - 7);
+    // Define max number of events/pages to fetch
+    const maxPages = 3;
+    const perPage = 100;
 
-    let page = 1;
-    let fetchedEvents;
-
-    do {
+    for (let page = 1; page <= maxPages; page++) {
       try {
-        fetchedEvents = await octokit.rest.activity.listEventsForAuthenticatedUser({
+        const fetchedEvents = await octokit.rest.activity.listEventsForAuthenticatedUser({
           username: GITHUB_USERNAME,
-          per_page: 100,
+          per_page: perPage,
           page,
         });
 
-        events.push(...fetchedEvents.data);
-        const lastEventDate = fetchedEvents.data.length > 0 ? fetchedEvents.data[fetchedEvents.data.length - 1].created_at : null;
-        if (lastEventDate && new Date(lastEventDate) > since) {
-          page++;
-        } else {
+        if (fetchedEvents.data.length === 0) {
+          // Stop if a page returns no events
           break;
         }
+
+        events.push(...fetchedEvents.data);
+
+        // Stop if we fetched fewer events than requested, indicating the last page
+        if (fetchedEvents.data.length < perPage) {
+          break;
+        }
+
       } catch (error: any) {
         if (error.status === 404) {
           console.error(`GitHub user '${GITHUB_USERNAME}' not found`);
-          return [];
+          // Return empty array on 404, no need to continue fetching
+          return []; 
         }
+        // Re-throw other errors to be caught by the outer catch block
         throw new GitHubAPIError(
-          `Failed to fetch GitHub events: ${error.message}`,
+          `Failed to fetch GitHub events page ${page}: ${error.message}`,
           error.status
         );
       }
-    } while (fetchedEvents.data.length > 0);
+    }
 
+    // Filtering by date will happen in getCommitsAndPullRequests
     return events;
   } catch (error) {
+    // Log errors from getOctokit or re-thrown GitHubAPIErrors
     console.error('Error fetching GitHub events:', error instanceof Error ? error.message : 'Unknown error');
+    // Return empty array on error so the calling function can handle it
     return [];
   }
 }
