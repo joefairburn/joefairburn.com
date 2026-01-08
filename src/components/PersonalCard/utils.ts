@@ -1,49 +1,50 @@
-import type { PlaybackState, PlayHistory, Track } from '@spotify/web-api-ts-sdk'
-import { formatDistanceToNow } from 'date-fns'
+import  {
+  type PlaybackState,
+  type PlayHistory,
+  type Track,
+} from "@spotify/web-api-ts-sdk";
 
-const isPlaybackState = (data: unknown): data is PlaybackState => {
-  return (
-    typeof data === 'object' &&
-    data !== null &&
-    'is_playing' in data &&
-    typeof (data as PlaybackState).is_playing === 'boolean'
-  )
-}
+import { formatDistanceToNow } from "date-fns";
 
-const isRecentlyPlayed = (data: unknown): data is PlayHistory => {
-  return typeof data === 'object' && data !== null && 'track' in data
-}
+const isPlaybackState = (data: unknown): data is PlaybackState =>
+  typeof data === "object" &&
+  data !== null &&
+  "is_playing" in data &&
+  typeof (data as PlaybackState).is_playing === "boolean";
+
+const isRecentlyPlayed = (data: unknown): data is PlayHistory =>
+  typeof data === "object" && data !== null && "track" in data;
 
 export const getTrackDetails = (context: PlaybackState | PlayHistory) => {
   // Check if context is PlaybackState
   if (isPlaybackState(context)) {
-    if (context.item && 'name' in context.item) {
-      const trackItem = context.item as Track
+    if (context.item && "name" in context.item) {
+      const trackItem = context.item as Track;
       return {
-        name: trackItem.name,
-        artists: trackItem.artists,
+        activityText: "Currently playing",
         album: trackItem.album,
+        artists: trackItem.artists,
         external_urls: trackItem.external_urls,
+        name: trackItem.name,
         played_at: null,
-        activityText: 'Currently playing'
-      }
+      };
     }
   }
 
   // Check if context is PlayHistory
   if (isRecentlyPlayed(context)) {
-    const trackItem = context.track
+    const trackItem = context.track;
     return {
-      name: trackItem.name,
-      artists: trackItem.artists,
-      album: trackItem.album,
-      external_urls: trackItem.external_urls,
-      played_at: context.played_at,
       activityText: `${formatDistanceToNow(new Date(context.played_at), {
         addSuffix: true,
-      })}`
-    }
+      })}`,
+      album: trackItem.album,
+      artists: trackItem.artists,
+      external_urls: trackItem.external_urls,
+      name: trackItem.name,
+      played_at: context.played_at,
+    };
   }
 
-  return null
-}
+  return null;
+};
