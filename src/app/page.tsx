@@ -45,78 +45,67 @@ export default function Home() {
 
           {/* Experience */}
           <SectionGrid title="Experience">
-            <ExperienceItem
-              dateRange="2025-Present"
-              companyName="Bumper"
-              description={
-                <>
-                  Building a <strong>dealership analytics</strong> platform that
-                  delivers actionable <strong>insights</strong> to help
-                  automotive businesses stay competitive.
-                </>
-              }
-            />
+            <ExperienceItem dateRange="2025-Present" companyName="Bumper">
+              Leading the frontend build of an analytics platform that delivers
+              actionable insights to help automotive businesses stay
+              competitive.
+            </ExperienceItem>
 
-            <ExperienceItem
-              dateRange="2023-2025"
-              companyName="Uppbeat"
-              description={
-                <>
-                  Crafting <strong>thoughtful</strong> and{" "}
-                  <strong>intuitive</strong> UIs that elevate the experience for
-                  content creators. Helped scale our frontend architecture to
-                  support millions of monthly active users, ensuring{" "}
-                  <strong>performance</strong> and <strong>reliability</strong>.
-                </>
-              }
-            />
+            <ExperienceItem dateRange="2023-2025" companyName="Uppbeat">
+              Led a full frontend rewrite and serverless migration, achieving{" "}
+              <strong>5x faster load times</strong> and{" "}
+              <strong>20% infrastructure savings</strong>. Scaled the team from{" "}
+              <strong>1 to 4 engineers</strong> while collaborating with design
+              to build a cohesive design system. Pioneered a self-serve
+              analytics and experimentation stack that accelerated product
+              iteration.
+            </ExperienceItem>
 
             {/* Moonsworth */}
-            <ExperienceItem
-              dateRange="2021-Present"
-              companyName="Moonsworth"
-              description={
-                <>
-                  Building Electron based launcher, APIs, in-game UIs, and sites
-                  such as{" "}
-                  <a
-                    href="https://wrapped.lunarclient.com"
-                    target="_blank"
-                    className="underline"
-                    rel="noreferrer"
-                    aria-label="Visit Lunar Client Wrapped"
-                  >
-                    Wrapped
-                  </a>{" "}
-                  and{" "}
-                  <a
-                    href="https://www.lunarclient.com"
-                    target="_blank"
-                    className=" underline"
-                    rel="noreferrer"
-                    aria-label="Visit Lunar Client"
-                  >
-                    Lunar Client
-                  </a>
-                </>
-              }
-            />
+            <ExperienceItem dateRange="2021-Present" companyName="Moonsworth">
+              Built and scaled{" "}
+              <a
+                href="https://www.lunarclient.com"
+                target="_blank"
+                className="underline"
+                rel="noreferrer"
+                aria-label="Visit Lunar Client"
+              >
+                Lunar Client
+              </a>{" "}
+              to <strong>2M+ monthly users</strong>, collaborating closely with
+              design on performance and conversion. Created{" "}
+              <a
+                href="https://wrapped.lunarclient.com"
+                target="_blank"
+                className="underline"
+                rel="noreferrer"
+                aria-label="Visit Lunar Client Wrapped"
+              >
+                Wrapped
+              </a>
+              , a viral data storytelling experience that drove engagement and
+              sign-ups.
+            </ExperienceItem>
 
             {/* Evergreen Energy */}
             <ExperienceItem
               dateRange="2021-2023"
               companyName="Evergreen Energy"
-              description="Modernised a green energy platform, replacing a legacy PHP
-                system with Next.js."
-            />
+            >
+              Architected and delivered end-to-end redevelopment of a legacy PHP
+              platform into Next.js, owning product design and stakeholder
+              collaboration. Built a calculation system for heat pump
+              installations that replaced manual processes.
+            </ExperienceItem>
 
             {/* ilk agency */}
-            <ExperienceItem
-              dateRange="2020-2021"
-              companyName="ilk agency"
-              description="Developed and maintained a large range of sites using
-                Next.js and WordPress as a headless CMS."
-            />
+            <ExperienceItem dateRange="2020-2021" companyName="ilk agency">
+              Pioneered the transition to headless CMS architecture with React
+              and Next.js, reducing hosting costs and improving performance.
+              Collaborated with designers and strategists to deliver client
+              projects on tight deadlines.
+            </ExperienceItem>
           </SectionGrid>
 
           {/* Contact */}

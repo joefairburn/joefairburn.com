@@ -5,13 +5,13 @@ import { GridItem } from "./grid-item";
 interface ExperienceItemProps {
   dateRange: string;
   companyName: string;
-  description: ReactNode;
+  children: ReactNode;
 }
 
 export const ExperienceItem = ({
   dateRange,
   companyName,
-  description,
+  children,
 }: ExperienceItemProps) => (
   <GridItem
     label={dateRange}
@@ -21,7 +21,7 @@ export const ExperienceItem = ({
       {companyName}
     </p>
     <p className="font-normal font-body text-sm text-neutral-400 w-fit">
-      {description}
+      {children}
     </p>
   </GridItem>
 );
