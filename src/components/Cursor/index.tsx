@@ -21,7 +21,7 @@ export const Cursor = () => {
           )}
           aria-hidden='true'
         >
-          <CursorIcon cursorRef={cursorRef} />
+          <CursorIcon />
           <div className='absolute bottom-0 right-0 w-fit h-fit overflow-visible'>
             <CursorPopup popupRef={popupRef} />
           </div>

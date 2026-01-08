@@ -27,7 +27,7 @@ export default async function Home() {
           <SectionGrid title='About'>
             <GridItem className='flex flex-col gap-4'>
               <p className='font-normal font-body text-sm text-neutral-400 w-fit'>
-                I'm currently working at Uppbeat, a startup democratising
+                I&apos;m currently working at Uppbeat, a startup democratising
                 content creation.
               </p>
               <p className='font-normal font-body text-sm text-neutral-400 w-fit'>
@@ -65,7 +65,7 @@ export default async function Home() {
               companyName='Moonsworth'
               description={
                 <>
-                  Building Electron based launcher, API's, in-game UI's, and
+                  Building Electron based launcher, APIs, in-game UIs, and
                   sites such as{' '}
                   <a
                     href='https://wrapped.lunarclient.com'

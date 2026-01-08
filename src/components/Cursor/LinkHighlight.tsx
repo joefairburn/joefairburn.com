@@ -3,14 +3,11 @@
 import clsx from 'clsx'
 import { Portal } from '@radix-ui/react-portal'
 import { AnimatePresence, motion, type Transition } from 'motion/react'
-import type { RefObject } from 'react'
 
 interface LinkHighlightProps {
-  targetRef: RefObject<HTMLElement>
+  rect: DOMRect | null
   isLink?: boolean
 }
-
-const padding = 10
 
 const baseTransition: Transition = {
   type: 'spring',
@@ -43,8 +40,7 @@ const transition: Transition = {
   height: yTransition
 }
 
-export const LinkHighlight = ({ targetRef, isLink }: LinkHighlightProps) => {
-  const rect = targetRef.current?.getBoundingClientRect()
+export const LinkHighlight = ({ rect, isLink }: LinkHighlightProps) => {
 
   if (!rect) return null
   return (

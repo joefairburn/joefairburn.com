@@ -1,5 +1,4 @@
 import { motion, MotionConfig } from 'motion/react'
-import { type RefObject } from 'react'
 import { useCursor } from './providers/CursorProvider'
 
 const getVariants = (height: number | undefined) => ({
@@ -11,17 +10,8 @@ const getVariants = (height: number | undefined) => ({
   grabActive: { opacity: 1, scale: 0.5 }
 })
 
-export const CursorIcon = ({
-  cursorRef
-}: {
-  cursorRef: RefObject<HTMLDivElement>
-}) => {
-  const { isMouseDown, cursorType, isVisible, targetRef } = useCursor()
-
-  const targetHeight =
-    cursorType === 'text'
-      ? parseInt(window.getComputedStyle(targetRef.current!).lineHeight)
-      : targetRef.current?.getBoundingClientRect().height
+export const CursorIcon = () => {
+  const { isMouseDown, cursorType, isVisible, targetHeight } = useCursor()
 
   const variants = getVariants(targetHeight)
 

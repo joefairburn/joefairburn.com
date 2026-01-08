@@ -8,7 +8,7 @@ import { useCursor } from '../../store/cursorContext'
 export const CursorPopup = ({
   popupRef
 }: {
-  popupRef: RefObject<HTMLDivElement>
+  popupRef: RefObject<HTMLDivElement | null>
 }) => {
   const { content } = useCursor()
 
