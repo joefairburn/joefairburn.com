@@ -1,7 +1,6 @@
 "use client";
 
-import type { ErrorInfo, ReactNode } from "react";
-import React, { Component } from "react";
+import React, { Component, type ErrorInfo, type ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
@@ -29,9 +28,9 @@ export class ErrorBoundary extends Component<Props, State> {
     return { error, hasError: true };
   }
 
+  // eslint-disable-next-line class-methods-use-this -- React lifecycle method pattern
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     console.error("Error caught by ErrorBoundary:", error, errorInfo);
-    // Here you could send the error to your analytics or logging service
   }
 
   render(): ReactNode {

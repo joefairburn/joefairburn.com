@@ -1,9 +1,8 @@
-import  {
+import {
   type PlaybackState,
   type PlayHistory,
   type Track,
 } from "@spotify/web-api-ts-sdk";
-
 import { formatDistanceToNow } from "date-fns";
 
 const isPlaybackState = (data: unknown): data is PlaybackState =>
@@ -16,19 +15,17 @@ const isRecentlyPlayed = (data: unknown): data is PlayHistory =>
   typeof data === "object" && data !== null && "track" in data;
 
 export const getTrackDetails = (context: PlaybackState | PlayHistory) => {
-  // Check if context is PlaybackState
-  if (isPlaybackState(context)) {
-    if (context.item && "name" in context.item) {
-      const trackItem = context.item as Track;
-      return {
-        activityText: "Currently playing",
-        album: trackItem.album,
-        artists: trackItem.artists,
-        external_urls: trackItem.external_urls,
-        name: trackItem.name,
-        played_at: null,
-      };
-    }
+  // Check if context is PlaybackState with a valid item
+  if (isPlaybackState(context) && context.item && "name" in context.item) {
+    const trackItem = context.item as Track;
+    return {
+      activityText: "Currently playing",
+      album: trackItem.album,
+      artists: trackItem.artists,
+      external_urls: trackItem.external_urls,
+      name: trackItem.name,
+      played_at: null,
+    };
   }
 
   // Check if context is PlayHistory

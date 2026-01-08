@@ -1,7 +1,7 @@
 "use client";
 
 import { Portal } from "@radix-ui/react-portal";
-import clsx from "clsx";
+import { clsx } from "clsx";
 import { AnimatePresence, motion, type Transition } from "motion/react";
 
 interface LinkHighlightProps {
@@ -18,26 +18,26 @@ const baseTransition: Transition = {
 
 const xTransition: Transition = {
   ...baseTransition,
-  type: "spring",
-  mass: 0.2,
   damping: 10,
+  mass: 0.2,
   stiffness: 75,
+  type: "spring",
 };
 const yTransition: Transition = {
   ...baseTransition,
-  type: "spring",
-  mass: 1,
   damping: 10,
+  mass: 1,
+  type: "spring",
 };
 
 const transition: Transition = {
   ...baseTransition,
-  opacity: { ...baseTransition, ease: "easeOut", delay: 0.2 },
-  scale: { ...baseTransition, ease: "easeOut", delay: 0, duration: 0.1 },
-  x: xTransition,
-  width: xTransition,
-  y: yTransition,
   height: yTransition,
+  opacity: { ...baseTransition, delay: 0.2, ease: "easeOut" },
+  scale: { ...baseTransition, delay: 0, duration: 0.1, ease: "easeOut" },
+  width: xTransition,
+  x: xTransition,
+  y: yTransition,
 };
 
 export const LinkHighlight = ({ rect, isLink }: LinkHighlightProps) => {
