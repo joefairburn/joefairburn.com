@@ -6,7 +6,8 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "pnpm dlx ultracite check",
+    "prepare": "lefthook install"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.0.21",
@@ -31,13 +32,14 @@
     "typescript": "^5.5.4"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.3",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "autoprefixer": "^10.0.1",
-    "eslint": "^9.0.0",
-    "eslint-config-next": "^16.0.0",
-    "postcss": "^8.5.2"
+    "lefthook": "^2.0.13",
+    "oxfmt": "^0.23.0",
+    "oxlint": "^1.38.0",
+    "postcss": "^8.5.2",
+    "ultracite": "7.0.10"
   }
 }

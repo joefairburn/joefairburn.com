@@ -1,16 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    useCache: true,
+  },
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'i.scdn.co',
+        hostname: "i.scdn.co",
+        protocol: "https",
       },
     ],
   },
-  experimental: {
-    useCache: true,
-  }
-}
+};
 
-export default nextConfig; 
+export default nextConfig;
