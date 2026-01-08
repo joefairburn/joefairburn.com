@@ -1,6 +1,6 @@
-import type {
-  PlaybackState,
-  RecentlyPlayedTracksPage,
+import {
+  type PlaybackState,
+  type RecentlyPlayedTracksPage,
 } from "@spotify/web-api-ts-sdk";
 import axios, { AxiosError } from "axios";
 
@@ -21,49 +21,40 @@ const clientId = process.env.SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN;
 
+const buildTokenRequestData = () =>
+  new URLSearchParams({
+    grant_type: "refresh_token",
+    refresh_token: refreshToken || "",
+  }).toString();
+
 /**
  * Gets a new Spotify access token using the refresh token
- * @returns A promise that resolves to the access token
+ * @returns {Promise<string>} A promise that resolves to the access token
  */
 const getAccessToken = async (): Promise<string> => {
-  try {
-    // Use centralized env var validation
-    validateEnvVars();
+  validateEnvVars();
 
-    const tokenUrl = "https://accounts.spotify.com/api/token";
+  const tokenUrl = "https://accounts.spotify.com/api/token";
+  const requestData = buildTokenRequestData();
 
-    const requestData = new URLSearchParams({
-      grant_type: "refresh_token",
-      refresh_token: refreshToken || "",
-    }).toString();
+  const tokenResponse = await axios.post(tokenUrl, requestData, {
+    headers: {
+      Authorization: `Basic ${btoa(`${clientId}:${clientSecret}`)}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  });
 
-    const tokenResponse = await axios.post(tokenUrl, requestData, {
-      headers: {
-        Authorization: `Basic ${btoa(clientId + ":" + clientSecret)}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    });
-
-    if (!tokenResponse.data?.access_token) {
-      throw new SpotifyAPIError("Failed to get access token from Spotify");
-    }
-
-    return tokenResponse.data.access_token;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      throw new SpotifyAPIError(
-        `Failed to get Spotify access token: ${error.message}`,
-        error.response?.status
-      );
-    }
-    throw error;
+  if (!tokenResponse.data?.access_token) {
+    throw new SpotifyAPIError("Failed to get access token from Spotify");
   }
+
+  return tokenResponse.data.access_token;
 };
 
 /**
  * Gets the currently playing track
- * @param accessToken Spotify access token
- * @returns Currently playing track data or null if no track is playing
+ * @param {string} accessToken - Spotify access token
+ * @returns {Promise<PlaybackState | null>} Currently playing track data or null if no track is playing
  */
 const getCurrentlyPlaying = async (accessToken: string) => {
   try {
@@ -95,8 +86,8 @@ const getCurrentlyPlaying = async (accessToken: string) => {
 
 /**
  * Gets the most recently played track
- * @param accessToken Spotify access token
- * @returns Most recently played track or null
+ * @param {string} accessToken - Spotify access token
+ * @returns {Promise<RecentlyPlayedTracksPage["items"][0] | null>} Most recently played track or null
  */
 const getRecentlyPlayed = async (accessToken: string) => {
   try {
@@ -113,7 +104,8 @@ const getRecentlyPlayed = async (accessToken: string) => {
       return null;
     }
 
-    return response.data.items[0]; // Return the most recent track
+    // Return the most recent track
+    return response.data.items[0];
   } catch (error) {
     if (error instanceof AxiosError) {
       throw new SpotifyAPIError(
@@ -125,37 +117,38 @@ const getRecentlyPlayed = async (accessToken: string) => {
   }
 };
 
+type SpotifyDataResult =
+  | PlaybackState
+  | RecentlyPlayedTracksPage["items"][0]
+  | { error: true }
+  | null;
+
+const fetchSpotifyTrack = async (
+  accessToken: string
+): Promise<SpotifyDataResult> => {
+  const currentlyPlaying = await getCurrentlyPlaying(accessToken);
+  if (currentlyPlaying) {
+    return currentlyPlaying;
+  }
+
+  const recentlyPlayed = await getRecentlyPlayed(accessToken);
+  return recentlyPlayed;
+};
+
 /**
  * Gets Spotify data - either currently playing or recently played track
- * @returns Spotify track data or null if unavailable
+ * @returns {Promise<SpotifyDataResult>} Spotify track data or null if unavailable
  */
-export const getSpotifyData = async (): Promise<
-  | (PlaybackState | RecentlyPlayedTracksPage["items"][0] | { error: true })
-  | null
-> => {
+export const getSpotifyData = async (): Promise<SpotifyDataResult> => {
   "use cache";
   try {
     const accessToken = await getAccessToken();
-
-    const currentlyPlaying = await getCurrentlyPlaying(accessToken);
-
-    if (currentlyPlaying) {
-      return currentlyPlaying;
-    }
-
-    const recentlyPlayed = await getRecentlyPlayed(accessToken);
-
-    if (recentlyPlayed) {
-      return recentlyPlayed;
-    }
-
-    return null;
+    return await fetchSpotifyTrack(accessToken);
   } catch (error) {
     console.error(
       "Error fetching Spotify data:",
       error instanceof Error ? error.message : "Unknown error"
     );
-    // Return error object instead of null
     return { error: true };
   }
 };

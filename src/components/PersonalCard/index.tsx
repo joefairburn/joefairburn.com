@@ -1,10 +1,11 @@
 "use client";
-import clsx from "clsx";
+
+import { clsx } from "clsx";
 import { motion } from "motion/react";
 import Image from "next/image";
 
 import { Skeleton } from "../Skeleton";
-import { ActivityIndicator } from "./ActivityIndicator";
+import { ActivityIndicator } from "./activity-indicator";
 
 const CardImage = ({
   image,
@@ -45,7 +46,9 @@ const CardLink = ({
     return <Skeleton className={clsx(className, "w-16")} />;
   }
 
+  // External link - using <a> is correct for target="_blank" external URLs
   return (
+    // eslint-disable-next-line @next/next/no-html-link-for-pages
     <a
       className={clsx(className, "text-base font-bold text-nowrap")}
       href={href}

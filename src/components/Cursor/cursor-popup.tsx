@@ -1,10 +1,10 @@
 "use client";
 
-import clsx from "clsx";
+import { clsx } from "clsx";
 import { AnimatePresence, motion } from "motion/react";
-import type { RefObject } from "react";
+import { type RefObject } from "react";
 
-import { useCursor } from "../../store/cursorContext";
+import { useCursor } from "../../store/cursor-context";
 
 export const CursorPopup = ({
   popupRef,

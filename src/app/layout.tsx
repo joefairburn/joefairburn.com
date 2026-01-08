@@ -1,13 +1,12 @@
-import  { type Metadata } from "next";
-
 import "@fontsource-variable/inter";
-import clsx from "clsx";
+import { clsx } from "clsx";
+import { type Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import { securityHeaders } from "@/lib/security.config";
 
 import { Cursor } from "../components/Cursor";
-import { CursorProvider } from "../store/cursorContext";
+import { CursorProvider } from "../store/cursor-context";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-body" });

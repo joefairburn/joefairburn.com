@@ -14,7 +14,7 @@ interface CursorContextType {
 
 const CursorContext = createContext<CursorContextType | undefined>(undefined);
 
-export function CursorProvider({ children }: { children: ReactNode }) {
+export const CursorProvider = ({ children }: { children: ReactNode }) => {
   const [content, setContent] = useState<CursorContent>({
     className: "",
     content: null,
@@ -25,12 +25,12 @@ export function CursorProvider({ children }: { children: ReactNode }) {
       {children}
     </CursorContext.Provider>
   );
-}
+};
 
-export function useCursor() {
+export const useCursor = () => {
   const context = useContext(CursorContext);
   if (!context) {
     throw new Error("useCursor must be used within a CursorProvider");
   }
   return context;
-}
+};

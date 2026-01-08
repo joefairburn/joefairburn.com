@@ -1,12 +1,12 @@
 "use client";
 
-import clsx from "clsx";
+import { clsx } from "clsx";
 import { MotionConfig } from "motion/react";
 import { useRef } from "react";
 
-import { CursorIcon } from "./CursorIcon";
-import { CursorPopup } from "./CursorPopup";
-import { CursorProvider } from "./providers/CursorProvider";
+import { CursorIcon } from "./cursor-icon";
+import { CursorPopup } from "./cursor-popup";
+import { CursorProvider } from "./providers/cursor-provider";
 
 export const Cursor = () => {
   const cursorRef = useRef<HTMLDivElement>(null);

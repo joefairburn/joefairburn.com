@@ -1,16 +1,16 @@
 import { Suspense } from "react";
 
-import { ErrorBoundary } from "../components/ErrorBoundary";
-import { ExperienceItem } from "../components/ExperienceItem";
-import { GridItem } from "../components/GridItem";
+import { ErrorBoundary } from "../components/error-boundary";
+import { ExperienceItem } from "../components/experience-item";
+import { GridItem } from "../components/grid-item";
 import { PersonalCard } from "../components/PersonalCard";
-import { SectionGrid } from "../components/SectionGrid";
-import { CurrentlyPlaying } from "./CurrentlyPlaying";
+import { SectionGrid } from "../components/section-grid";
+import { CurrentlyPlaying } from "./currently-playing";
 
 /**
  * Home page component
  */
-export default async function Home() {
+export default function Home() {
   return (
     <section className="max-w-2xl mx-auto mt-[5vh]">
       <div>

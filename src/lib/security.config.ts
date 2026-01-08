@@ -23,25 +23,19 @@ export const contentSecurityPolicy = {
  * Security headers configuration
  */
 export const securityHeaders = {
-  // Prevent XSS attacks
-  "X-XSS-Protection": "1; mode=block",
-  // Prevent MIME type sniffing
-  "X-Content-Type-Options": "nosniff",
-  // Prevent clickjacking
-  "X-Frame-Options": "DENY",
-  // Strict transport security
-  "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
-  // Referrer policy
-  "Referrer-Policy": "strict-origin-when-cross-origin",
-  // Feature policy
   "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "DENY",
+  "X-XSS-Protection": "1; mode=block",
 };
 
 /**
  * Environment variable validation
  * Validates required environment variables are set
  */
-export function validateEnvVars(): void {
+export const validateEnvVars = (): void => {
   const requiredVars = [
     "SPOTIFY_CLIENT_ID",
     "SPOTIFY_CLIENT_SECRET",
@@ -56,19 +50,18 @@ export function validateEnvVars(): void {
       `Missing required environment variables: ${missingVars.join(", ")}`
     );
   }
-}
+};
 
 /**
  * Sanitizes user input to prevent XSS
- * @param input User input string
- * @returns Sanitized string
+ * @param {string} input - User input string
+ * @returns {string} Sanitized string
  */
-export function sanitizeInput(input: string): string {
-  return input
+export const sanitizeInput = (input: string): string =>
+  input
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#x27;")
     .replaceAll("/", "&#x2F;");
-}
