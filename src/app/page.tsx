@@ -136,7 +136,7 @@ export default async function Home() {
       <div className='mt-16'>
         <ErrorBoundary silent={true}>
           <Suspense
-            fallback={<PersonalCard spotifyData={null} githubData={null} />}
+            fallback={<PersonalCard spotifyData={null} />}
           >
             <CurrentlyPlaying />
           </Suspense>
