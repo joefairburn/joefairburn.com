@@ -188,11 +188,6 @@ export const PersonalCard = ({
     error?: boolean
   } | null
 }) => {
-  // If the data is a show, return null.
-  if (spotifyData && 'show' in spotifyData) {
-    return null
-  }
-
   const [activeIndex, setActiveIndex] = useState(0)
   const [hasInteracted, setHasInteracted] = useState(false)
   const y = useMotionValue(0)
@@ -262,6 +257,11 @@ export const PersonalCard = ({
       }
     }
   }, [activeIndex])
+
+  // If the data is a show, return null.
+  if (spotifyData && 'show' in spotifyData) {
+    return null
+  }
 
   return (
     <>

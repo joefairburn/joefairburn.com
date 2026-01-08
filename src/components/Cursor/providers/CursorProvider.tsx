@@ -10,20 +10,20 @@ import {
 } from 'react'
 
 interface CursorContextType {
-  cursorRef: RefObject<HTMLDivElement>
-  popupRef: RefObject<HTMLDivElement>
+  cursorRef: RefObject<HTMLDivElement | null>
+  popupRef: RefObject<HTMLDivElement | null>
   isVisible: boolean
   cursorType: string
   isMouseDown: boolean
-  targetRef: RefObject<HTMLElement>
+  targetHeight: number | undefined
 }
 
 const CursorContext = createContext<CursorContextType | undefined>(undefined)
 
 interface CursorProviderProps {
   children: ReactNode
-  cursorRef: RefObject<HTMLDivElement>
-  popupRef: RefObject<HTMLDivElement>
+  cursorRef: RefObject<HTMLDivElement | null>
+  popupRef: RefObject<HTMLDivElement | null>
 }
 
 export const CursorProvider = ({
@@ -35,6 +35,7 @@ export const CursorProvider = ({
   const [hasInteractedInitially, setHasInteractedInitially] = useState(false)
   const [cursorType, setCursorType] = useState<string>('default')
   const [isMouseDown, setIsMouseDown] = useState(false)
+  const [targetHeight, setTargetHeight] = useState<number | undefined>(undefined)
   const targetRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
@@ -98,7 +99,7 @@ export const CursorProvider = ({
         popup.style.transform = `translate(${x}px, ${y}px)`
       }
     },
-    [cursorRef, popupRef, cursorType, targetRef]
+    [cursorRef, popupRef]
   )
 
   useEffect(() => {
@@ -138,6 +139,14 @@ export const CursorProvider = ({
 
       targetRef.current = target
 
+      // Compute target height in event handler, not during render
+      if (cursor === 'text') {
+        const lineHeight = parseInt(window.getComputedStyle(target).lineHeight)
+        setTargetHeight(isNaN(lineHeight) ? target.getBoundingClientRect().height : lineHeight)
+      } else {
+        setTargetHeight(target.getBoundingClientRect().height)
+      }
+
       setCursorType(cursor)
     }
 
@@ -166,7 +175,7 @@ export const CursorProvider = ({
         isVisible,
         cursorType: hasInteractedInitially ? cursorType : 'hidden',
         isMouseDown,
-        targetRef
+        targetHeight
       }}
     >
       {children}

@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, type ReactNode } from 'react'
 
 interface CursorContent {
-  content: JSX.Element | null
+  content: ReactNode
   className?: string
 }
 
