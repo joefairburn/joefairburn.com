@@ -28,8 +28,9 @@ export default function Home() {
           <SectionGrid title="About">
             <GridItem className="flex flex-col gap-4">
               <p className="font-normal font-body text-sm text-neutral-400 w-fit">
-                I&apos;m currently working at Uppbeat, a startup democratising
-                content creation.
+                I&apos;m currently working at Bumper, a FinTech building
+                payments and business intelligence tools for the automotive
+                industry.
               </p>
               <p className="font-normal font-body text-sm text-neutral-400 w-fit">
                 My focus is on creating thoughtful, user-centric experiences,
@@ -45,7 +46,19 @@ export default function Home() {
           {/* Experience */}
           <SectionGrid title="Experience">
             <ExperienceItem
-              dateRange="2023-Present"
+              dateRange="2025-Present"
+              companyName="Bumper"
+              description={
+                <>
+                  Building a <strong>dealership analytics</strong> platform that
+                  delivers actionable <strong>insights</strong> to help
+                  automotive businesses stay competitive.
+                </>
+              }
+            />
+
+            <ExperienceItem
+              dateRange="2023-2025"
               companyName="Uppbeat"
               description={
                 <>
