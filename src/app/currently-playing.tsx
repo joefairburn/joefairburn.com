@@ -1,5 +1,8 @@
 import { PersonalCard } from "@/components/PersonalCard";
-import { getTrackDetails } from "@/components/PersonalCard/utils";
+import {
+  type SerializedTrackData,
+  getTrackDetails,
+} from "@/components/PersonalCard/utils";
 
 import { getSpotifyData } from "../lib/spotify";
 
@@ -11,7 +14,7 @@ export const CurrentlyPlaying = async () => {
 
   const spotifyResult = await getSpotifyData();
 
-  let trackDetails: Record<string, unknown> | null | { error: boolean } = null;
+  let trackDetails: SerializedTrackData | { error: true } | null = null;
 
   if (spotifyResult && !("error" in spotifyResult)) {
     trackDetails = getTrackDetails(spotifyResult);
