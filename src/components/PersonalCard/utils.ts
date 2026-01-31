@@ -5,6 +5,15 @@ import {
 } from "@spotify/web-api-ts-sdk";
 import { formatDistanceToNow } from "date-fns";
 
+export interface SerializedTrackData {
+  name: string;
+  artistName: string;
+  albumImageUrl: string | null;
+  spotifyUrl: string;
+  playedAt: string | null;
+  activityText: string;
+}
+
 const isPlaybackState = (data: unknown): data is PlaybackState =>
   typeof data === "object" &&
   data !== null &&
@@ -14,32 +23,32 @@ const isPlaybackState = (data: unknown): data is PlaybackState =>
 const isRecentlyPlayed = (data: unknown): data is PlayHistory =>
   typeof data === "object" && data !== null && "track" in data;
 
-export const getTrackDetails = (context: PlaybackState | PlayHistory) => {
-  // Check if context is PlaybackState with a valid item
+export const getTrackDetails = (
+  context: PlaybackState | PlayHistory
+): SerializedTrackData | null => {
   if (isPlaybackState(context) && context.item && "name" in context.item) {
     const trackItem = context.item as Track;
     return {
-      activityText: "Currently playing",
-      album: trackItem.album,
-      artists: trackItem.artists,
-      external_urls: trackItem.external_urls,
       name: trackItem.name,
-      played_at: null,
+      artistName: trackItem.artists[0]?.name ?? "Unknown Artist",
+      albumImageUrl: trackItem.album.images[0]?.url ?? null,
+      spotifyUrl: trackItem.external_urls.spotify,
+      playedAt: null,
+      activityText: "Currently playing",
     };
   }
 
-  // Check if context is PlayHistory
   if (isRecentlyPlayed(context)) {
     const trackItem = context.track;
     return {
-      activityText: `${formatDistanceToNow(new Date(context.played_at), {
-        addSuffix: true,
-      })}`,
-      album: trackItem.album,
-      artists: trackItem.artists,
-      external_urls: trackItem.external_urls,
       name: trackItem.name,
-      played_at: context.played_at,
+      artistName: trackItem.artists[0]?.name ?? "Unknown Artist",
+      albumImageUrl: trackItem.album.images[0]?.url ?? null,
+      spotifyUrl: trackItem.external_urls.spotify,
+      playedAt: context.played_at,
+      activityText: formatDistanceToNow(new Date(context.played_at), {
+        addSuffix: true,
+      }),
     };
   }
 

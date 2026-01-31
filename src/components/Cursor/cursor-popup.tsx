@@ -28,7 +28,7 @@ export const CursorPopup = ({
       }}
     >
       <AnimatePresence>
-        {content.content && (
+        {content.content ? (
           <motion.div
             className="relative w-fit"
             initial={{ opacity: 1 }}
@@ -38,7 +38,7 @@ export const CursorPopup = ({
           >
             {content.content}
           </motion.div>
-        )}
+        ) : null}
       </AnimatePresence>
     </div>
   );

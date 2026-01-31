@@ -6,16 +6,9 @@ import Image from "next/image";
 
 import { Skeleton } from "../Skeleton";
 import { ActivityIndicator } from "./activity-indicator";
+import { type SerializedTrackData } from "./utils";
 
-const CardImage = ({
-  image,
-  alt,
-  unoptimized = false,
-}: {
-  image: string;
-  alt: string;
-  unoptimized?: boolean;
-}) => {
+const CardImage = ({ image, alt }: { image: string | null; alt: string }) => {
   const className = "size-16 rounded-sm";
 
   if (!image) {
@@ -25,7 +18,7 @@ const CardImage = ({
   return (
     <Image
       className={clsx("opacity-80 pointer-events-none", className)}
-      unoptimized={unoptimized}
+      unoptimized
       src={image}
       alt={alt}
       width={128}
@@ -46,9 +39,7 @@ const CardLink = ({
     return <Skeleton className={clsx(className, "w-16")} />;
   }
 
-  // External link - using <a> is correct for target="_blank" external URLs
   return (
-    // eslint-disable-next-line @next/next/no-html-link-for-pages
     <a
       className={clsx(className, "text-base font-bold text-nowrap")}
       href={href}
@@ -80,41 +71,26 @@ const ErrorDisplay = () => (
 const SpotifySection = ({
   item,
 }: {
-  item: (Record<string, unknown> & { error?: false }) | { error: true } | null;
+  item: SerializedTrackData | { error: true } | null;
 }) => {
-  if (item && "error" in item && item.error) {
+  if (item && "error" in item) {
     return <ErrorDisplay />;
   }
-
-  const typedItem = item as Record<string, unknown> | null;
 
   return (
     <div className="flex items-center gap-4 px-5 w-full">
       <div className="flex items-center gap-4 py-2 w-full">
         <CardImage
-          image={
-            (
-              (typedItem?.album as Record<string, unknown>)?.images as {
-                url: string;
-              }[]
-            )?.[0]?.url
-          }
-          alt={typedItem?.name as string}
-          unoptimized={true}
+          image={item?.albumImageUrl ?? null}
+          alt={item?.name ?? "Album art"}
         />
         <div className="flex flex-col h-full gap-1 justify-center">
-          <CardLink
-            href={(typedItem?.external_urls as Record<string, string>)?.spotify}
-          >
-            {typedItem?.name as string}
-          </CardLink>
-          <ArtistName
-            name={(typedItem?.artists as { name: string }[])?.[0]?.name}
-          />
+          <CardLink href={item?.spotifyUrl ?? ""}>{item?.name ?? ""}</CardLink>
+          <ArtistName name={item?.artistName ?? ""} />
           <ActivityIndicator
-            hasLoaded={item !== null && !("error" in item && item.error)}
-            played_at={typedItem?.played_at as string}
-            activityText={typedItem?.activityText as string}
+            hasLoaded={item !== null}
+            played_at={item?.playedAt ?? null}
+            activityText={item?.activityText}
           />
         </div>
       </div>
@@ -125,29 +101,20 @@ const SpotifySection = ({
 export const PersonalCard = ({
   spotifyData,
 }: {
-  spotifyData:
-    | (Record<string, unknown> & { error?: false })
-    | { error: true }
-    | null;
-}) => {
-  if (spotifyData && "show" in spotifyData) {
-    return null;
-  }
-
-  return (
-    <div
-      className="bg-black border-neutral-800 shadow-md rounded-xl overflow-hidden h-[96px]"
-      role="region"
-      aria-label="Spotify Activity"
+  spotifyData: SerializedTrackData | { error: true } | null;
+}) => (
+  <div
+    className="bg-black border-neutral-800 shadow-md rounded-xl overflow-hidden h-[96px]"
+    role="region"
+    aria-label="Spotify Activity"
+  >
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="flex items-center h-[96px]"
     >
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className="flex items-center h-[96px]"
-      >
-        <SpotifySection item={spotifyData} />
-      </motion.div>
-    </div>
-  );
-};
+      <SpotifySection item={spotifyData} />
+    </motion.div>
+  </div>
+);

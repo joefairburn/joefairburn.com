@@ -11,6 +11,23 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-body" });
 
+const NoiseFilter = (
+  <svg
+    className="pointer-events-none fixed inset-0 top-0 bottom-0 right-0 left-0 -z-50 h-full w-full overflow-hidden opacity-[0.075]"
+    aria-hidden="true"
+  >
+    <filter id="fractalNoise">
+      <feTurbulence
+        type="fractalNoise"
+        baseFrequency=".55"
+        numOctaves="1"
+        stitchTiles="stitch"
+      />
+    </filter>
+    <rect width="100%" height="100%" filter="url(#fractalNoise)" />
+  </svg>
+);
+
 export const metadata: Metadata = {
   description: "Personal website of Joe Fairburn",
   other: {
@@ -51,17 +68,7 @@ export default function RootLayout({
           <main>{children}</main>
           <Cursor />
 
-          <svg className="pointer-events-none fixed inset-0 top-0 bottom-0 right-0 left-0 -z-50 h-full w-full overflow-hidden opacity-[0.075]">
-            <filter id="fractalNoise">
-              <feTurbulence
-                type="fractalNoise"
-                baseFrequency=".55"
-                numOctaves="1"
-                stitchTiles="stitch"
-              />
-            </filter>
-            <rect width="100%" height="100%" filter="url(#fractalNoise)" />
-          </svg>
+          {NoiseFilter}
         </CursorProvider>
       </body>
     </html>

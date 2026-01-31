@@ -86,28 +86,66 @@ interface MouseEventHandlers {
   handleMouseUp: () => void;
 }
 
+const listenerOptions: AddEventListenerOptions = { passive: true };
+
 const addEventListeners = (
   handlers: MouseEventHandlers,
   updatePosition: (e: MouseEvent) => void
 ) => {
-  window.addEventListener("mousemove", updatePosition);
-  window.addEventListener("mousedown", handlers.handleMouseDown);
-  window.addEventListener("mouseup", handlers.handleMouseUp);
-  window.addEventListener("mouseover", handlers.handleMouseOver);
-  document.body.addEventListener("mouseleave", handlers.handleMouseLeave);
-  document.body.addEventListener("mouseenter", handlers.handleMouseEnter);
+  window.addEventListener("mousemove", updatePosition, listenerOptions);
+  window.addEventListener(
+    "mousedown",
+    handlers.handleMouseDown,
+    listenerOptions
+  );
+  window.addEventListener("mouseup", handlers.handleMouseUp, listenerOptions);
+  window.addEventListener(
+    "mouseover",
+    handlers.handleMouseOver,
+    listenerOptions
+  );
+  document.body.addEventListener(
+    "mouseleave",
+    handlers.handleMouseLeave,
+    listenerOptions
+  );
+  document.body.addEventListener(
+    "mouseenter",
+    handlers.handleMouseEnter,
+    listenerOptions
+  );
 };
 
 const removeEventListeners = (
   handlers: MouseEventHandlers,
   updatePosition: (e: MouseEvent) => void
 ) => {
-  window.removeEventListener("mousemove", updatePosition);
-  window.removeEventListener("mousedown", handlers.handleMouseDown);
-  window.removeEventListener("mouseup", handlers.handleMouseUp);
-  window.removeEventListener("mouseover", handlers.handleMouseOver);
-  document.body.removeEventListener("mouseleave", handlers.handleMouseLeave);
-  document.body.removeEventListener("mouseenter", handlers.handleMouseEnter);
+  window.removeEventListener("mousemove", updatePosition, listenerOptions);
+  window.removeEventListener(
+    "mousedown",
+    handlers.handleMouseDown,
+    listenerOptions
+  );
+  window.removeEventListener(
+    "mouseup",
+    handlers.handleMouseUp,
+    listenerOptions
+  );
+  window.removeEventListener(
+    "mouseover",
+    handlers.handleMouseOver,
+    listenerOptions
+  );
+  document.body.removeEventListener(
+    "mouseleave",
+    handlers.handleMouseLeave,
+    listenerOptions
+  );
+  document.body.removeEventListener(
+    "mouseenter",
+    handlers.handleMouseEnter,
+    listenerOptions
+  );
 };
 
 export const CursorProvider = ({
