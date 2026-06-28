@@ -1,14 +1,15 @@
-# Ultracite Code Standards
+# Code Standards
 
-This project uses **Ultracite**, a zero-config preset that enforces strict code quality standards through automated formatting and linting.
+This project uses **Vite+** (`vp`) as its unified toolchain for linting, formatting, and type-checking. Oxlint + Oxfmt are the underlying engines (bundled with Vite+); most issues are automatically fixable.
 
 ## Quick Reference
 
-- **Format code**: `pnpm dlx ultracite fix`
-- **Check for issues**: `pnpm dlx ultracite check`
-- **Diagnose setup**: `pnpm dlx ultracite doctor`
+- **Format code**: `pnpm exec vp fmt`
+- **Check (format + lint)**: `pnpm exec vp check` — add `--fix` to auto-fix
+- **Lint only**: `pnpm exec vp lint`
+- **Type-check**: `pnpm typecheck` (`tsc --noEmit`)
 
-Oxlint + Oxfmt (the underlying engine) provides robust linting and formatting. Most issues are automatically fixable.
+Commits run `vp staged` via the Vite+ git hook (`.vite-hooks/`), which applies `vp check --fix` to staged files.
 
 ---
 
@@ -123,4 +124,4 @@ Oxlint + Oxfmt's linter will catch most issues automatically. Focus your attenti
 
 ---
 
-Most formatting and common issues are automatically fixed by Oxlint + Oxfmt. Run `pnpm dlx ultracite fix` before committing to ensure compliance.
+Most formatting and common issues are automatically fixed by Oxlint + Oxfmt. Run `pnpm exec vp check --fix` before committing to ensure compliance.

@@ -9,6 +9,7 @@ import { Cursor } from "@/components/Cursor";
 import { DefaultCatchBoundary } from "@/components/default-catch-boundary";
 import { NotFound } from "@/components/not-found";
 import { CursorProvider } from "@/store/cursor-context";
+
 import appCss from "@/styles/globals.css?url";
 
 const NoiseFilter = (
