@@ -92,6 +92,20 @@ function Home() {
 
           {/* Projects */}
           <SectionGrid title="Projects">
+            <ExperienceItem dateRange="2026" companyName="RedwoodSDK Docs">
+              Built the{" "}
+              <a
+                href="https://docs.rwsdk.com/"
+                target="_blank"
+                className="underline"
+                rel="noreferrer"
+                aria-label="Visit the RedwoodSDK documentation"
+              >
+                RedwoodSDK docs
+              </a>{" "}
+              with RedwoodSDK, replacing the previous Astro documentation site.
+            </ExperienceItem>
+
             <ExperienceItem dateRange="2025" companyName="Goodpour">
               Personal software for finding coffee shops around the UK, inspired
               by writing from{" "}
@@ -115,20 +129,6 @@ function Home() {
                 RedwoodSDK
               </a>
               .
-            </ExperienceItem>
-
-            <ExperienceItem dateRange="2026" companyName="RedwoodSDK Docs">
-              Built the{" "}
-              <a
-                href="https://docs.rwsdk.com/"
-                target="_blank"
-                className="underline"
-                rel="noreferrer"
-                aria-label="Visit the RedwoodSDK documentation"
-              >
-                RedwoodSDK docs
-              </a>{" "}
-              with RedwoodSDK, replacing the previous Astro documentation site.
             </ExperienceItem>
 
             <ExperienceItem dateRange="2021 - 2026" companyName="Moonsworth">
