@@ -1,5 +1,3 @@
-"use client";
-
 import { clsx } from "clsx";
 
 import { Skeleton } from "../Skeleton";

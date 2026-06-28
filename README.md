@@ -1,117 +1,117 @@
 # Personal Portfolio Site
 
-A modern, minimalist personal portfolio site built with Next.js, TypeScript, and Tailwind CSS. This site showcases professional experience, skills, and integrates with external APIs to display real-time data.
+A modern, minimalist personal portfolio site built with [TanStack Start](https://tanstack.com/start), TypeScript, and Tailwind CSS, deployed to [Cloudflare Workers](https://workers.cloudflare.com/). It showcases professional experience and integrates with the Spotify API to display real-time listening activity.
 
 ## 🚀 Features
 
-- **Modern Next.js App Router Architecture**: Built with Next.js 15 utilizing the latest React features
-- **Server Components**: Utilizes React Server Components for optimal performance
-- **TypeScript**: Fully typed codebase for better developer experience and code quality
-- **Tailwind CSS**: Responsive design with utility-first CSS
-- **API Integrations**:
-  - Spotify API to show currently playing or recently played tracks
-  - GitHub API to display recent activity stats
-- **Accessibility**: ARIA attributes, keyboard navigation, screen reader support
-- **Performance Optimized**: Suspense boundaries, caching strategies, and optimized image loading
-- **Error Handling**: Robust error boundaries and graceful fallbacks
+- **TanStack Start**: Full-stack React framework with type-safe, file-based routing
+- **Cloudflare Workers**: SSR runs on Cloudflare's edge via the `@cloudflare/vite-plugin`
+- **Server Functions**: Spotify credentials and API calls stay server-only via `createServerFn`
+- **Streaming**: The page renders immediately and the Spotify card streams in through a deferred loader (`React.use` + `Suspense`)
+- **TypeScript**: Fully typed codebase, including Cloudflare bindings via `wrangler types`
+- **Tailwind CSS v4**: Utility-first styling through `@tailwindcss/vite`
+- **Accessibility**: ARIA attributes, semantic HTML, and graceful error boundaries
 
 ## 📂 Project Structure
 
 ```
 /
-├── public/              # Static assets
-│   └── images/          # Image files
+├── public/                 # Static assets (fonts, images, favicon, robots.txt)
 ├── src/
-│   ├── app/             # Next.js App Router
-│   │   ├── components/  # App-specific components
-│   │   ├── page.tsx     # Main page
-│   │   └── layout.tsx   # Root layout
-│   ├── components/      # Shared components
-│   │   ├── Cursor/      # Custom cursor component
-│   │   ├── PersonalCard/# Personal information card
-│   │   ├── Skeleton/    # Loading skeletons
-│   │   └── ...          # Other components
-│   ├── lib/             # Utility functions and API clients
-│   │   ├── github.ts    # GitHub API integration
-│   │   └── spotify.ts   # Spotify API integration
-│   └── store/           # State management
-│       └── cursorContext.tsx  # Cursor state context
+│   ├── routes/             # File-based routes
+│   │   ├── __root.tsx      # Root document, <head> metadata, providers
+│   │   └── index.tsx       # Home page + Spotify loader
+│   ├── server/             # Server functions (run only on the Worker)
+│   │   └── spotify.ts      # createServerFn that reads Spotify secrets from env
+│   ├── components/         # Shared UI components
+│   │   ├── Cursor/         # Custom cursor
+│   │   ├── PersonalCard/   # Spotify activity card
+│   │   └── ...
+│   ├── lib/                # API clients / utilities (spotify.ts, security.config.ts)
+│   ├── store/              # React context (cursor state)
+│   ├── styles/globals.css  # Tailwind entry + theme
+│   ├── router.tsx          # Router factory (getRouter)
+│   └── routeTree.gen.ts    # Generated route tree (do not edit)
+├── vite.config.ts          # Vite + TanStack Start + Cloudflare + Tailwind plugins
+└── wrangler.jsonc          # Cloudflare Worker configuration
 ```
 
 ## 🔧 Environment Variables
 
-Create a `.env.local` file in the root directory with the following variables:
+The app reads Spotify credentials from the Cloudflare `env` binding (`cloudflare:workers`).
+
+**Local development** — copy `.dev.vars.example` to `.dev.vars` (gitignored) and fill in:
 
 ```
-# Spotify API
 SPOTIFY_CLIENT_ID=your_spotify_client_id
 SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
 SPOTIFY_REFRESH_TOKEN=your_spotify_refresh_token
-
-# GitHub API
-GITHUB_TOKEN=your_github_token
 ```
+
+**Production** — set them as Worker secrets:
+
+```bash
+wrangler secret put SPOTIFY_CLIENT_ID
+wrangler secret put SPOTIFY_CLIENT_SECRET
+wrangler secret put SPOTIFY_REFRESH_TOKEN
+```
+
+If credentials are missing, the Spotify card degrades gracefully to an error state and the rest of the page renders normally.
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js 18+ (recommended: latest LTS version)
-- pnpm (recommended) or npm
+- Node.js 20+
+- pnpm
 
 ### Installation
 
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/yourusername/personal-site.git
-   cd personal-site
-   ```
-
-2. Install dependencies:
+1. Install dependencies:
 
    ```bash
    pnpm install
    ```
 
-3. Create your `.env.local` with the required environment variables.
+2. Create your `.dev.vars` from `.dev.vars.example`.
 
-4. Start the development server:
+3. Start the development server:
 
    ```bash
    pnpm dev
    ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## 🛠️ Commands
 
-| Command      | Description                          |
-| ------------ | ------------------------------------ |
-| `pnpm dev`   | Start the development server         |
-| `pnpm build` | Build the application for production |
-| `pnpm start` | Start the production server          |
-| `pnpm lint`  | Run ESLint to check code quality     |
+| Command           | Description                                               |
+| ----------------- | --------------------------------------------------------- |
+| `pnpm dev`        | Start the Vite dev server (SSR in workerd)                |
+| `pnpm build`      | Build the client and server bundles                       |
+| `pnpm preview`    | Preview the production build locally                      |
+| `pnpm deploy`     | Build and deploy to Cloudflare Workers (`wrangler`)       |
+| `pnpm cf-typegen` | Regenerate `worker-configuration.d.ts` from Worker config |
+| `pnpm lint`       | Lint and format check via Ultracite (oxlint + oxfmt)      |
 
-## 🧩 API Integrations
+## ☁️ Deployment
 
-### Spotify API
+The site deploys to Cloudflare Workers. After setting your secrets (see above):
 
-The site integrates with Spotify's API to display your currently playing or recently played tracks. To set this up:
+```bash
+pnpm deploy
+```
 
-1. Create a Spotify Developer account at [developer.spotify.com](https://developer.spotify.com/)
-2. Create a new application
-3. Add `http://localhost:3000/callback` to the Redirect URIs
-4. Copy the Client ID and Client Secret to your `.env.local` file
-5. Generate a refresh token following [Spotify's authorization guide](https://developer.spotify.com/documentation/general/guides/authorization-guide/)
+The Worker name and runtime settings live in `wrangler.jsonc`. Rerun `pnpm cf-typegen` whenever you change bindings in `wrangler.jsonc`.
 
-### GitHub API
+## 🎵 Spotify API
 
-GitHub integration shows your recent activity stats:
+The site displays your currently playing or most recently played track. To set this up:
 
-1. Create a [GitHub Personal Access Token](https://github.com/settings/tokens)
-2. Give it the `repo` and `user` scopes
-3. Add the token to your `.env.local` file
+1. Create an app in the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard).
+2. Copy the Client ID and Client Secret.
+3. Generate a refresh token with the `user-read-currently-playing` and `user-read-recently-played` scopes.
+4. Provide the three values via `.dev.vars` (local) or `wrangler secret put` (production).
 
 ## 📝 License
 

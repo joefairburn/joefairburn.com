@@ -1,5 +1,3 @@
-"use client";
-
 import { Portal } from "@radix-ui/react-portal";
 import { clsx } from "clsx";
 import { AnimatePresence, motion, type Transition } from "motion/react";

@@ -32,27 +32,6 @@ export const securityHeaders = {
 };
 
 /**
- * Environment variable validation
- * Validates required environment variables are set
- */
-export const validateEnvVars = (): void => {
-  const requiredVars = [
-    "SPOTIFY_CLIENT_ID",
-    "SPOTIFY_CLIENT_SECRET",
-    "SPOTIFY_REFRESH_TOKEN",
-    "GITHUB_TOKEN",
-  ];
-
-  const missingVars = requiredVars.filter((varName) => !process.env[varName]);
-
-  if (missingVars.length > 0) {
-    throw new Error(
-      `Missing required environment variables: ${missingVars.join(", ")}`
-    );
-  }
-};
-
-/**
  * Sanitizes user input to prevent XSS
  * @param {string} input - User input string
  * @returns {string} Sanitized string

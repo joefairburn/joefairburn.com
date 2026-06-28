@@ -1,8 +1,5 @@
-"use client";
-
 import { clsx } from "clsx";
 import { motion } from "motion/react";
-import Image from "next/image";
 
 import { Skeleton } from "../Skeleton";
 import { ActivityIndicator } from "./activity-indicator";
@@ -16,9 +13,8 @@ const CardImage = ({ image, alt }: { image: string | null; alt: string }) => {
   }
 
   return (
-    <Image
+    <img
       className={clsx("opacity-80 pointer-events-none", className)}
-      unoptimized
       src={image}
       alt={alt}
       width={128}

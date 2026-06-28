@@ -29,26 +29,26 @@ export const getTrackDetails = (
   if (isPlaybackState(context) && context.item && "name" in context.item) {
     const trackItem = context.item as Track;
     return {
-      name: trackItem.name,
-      artistName: trackItem.artists[0]?.name ?? "Unknown Artist",
-      albumImageUrl: trackItem.album.images[0]?.url ?? null,
-      spotifyUrl: trackItem.external_urls.spotify,
-      playedAt: null,
       activityText: "Currently playing",
+      albumImageUrl: trackItem.album.images[0]?.url ?? null,
+      artistName: trackItem.artists[0]?.name ?? "Unknown Artist",
+      name: trackItem.name,
+      playedAt: null,
+      spotifyUrl: trackItem.external_urls.spotify,
     };
   }
 
   if (isRecentlyPlayed(context)) {
     const trackItem = context.track;
     return {
-      name: trackItem.name,
-      artistName: trackItem.artists[0]?.name ?? "Unknown Artist",
-      albumImageUrl: trackItem.album.images[0]?.url ?? null,
-      spotifyUrl: trackItem.external_urls.spotify,
-      playedAt: context.played_at,
       activityText: formatDistanceToNow(new Date(context.played_at), {
         addSuffix: true,
       }),
+      albumImageUrl: trackItem.album.images[0]?.url ?? null,
+      artistName: trackItem.artists[0]?.name ?? "Unknown Artist",
+      name: trackItem.name,
+      playedAt: context.played_at,
+      spotifyUrl: trackItem.external_urls.spotify,
     };
   }
 

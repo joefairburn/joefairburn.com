@@ -1,0 +1,23 @@
+"$schema" = "https://conductor.build/schemas/settings.repo.schema.json"
+
+# Copy the gitignored Spotify secrets into every new workspace. The default
+# Files-to-copy pattern only matches `.env*`, which does not cover `.dev.vars`
+# (read via `cloudflare:workers` env). Without this the Spotify card just
+# degrades to its error state, but the rest of the page still renders.
+file_include_globs = ".dev.vars\n.env*\n"
+
+[scripts]
+# worker-configuration.d.ts and src/env.d.ts are committed, so a fresh install
+# is all a new workspace needs.
+setup = "pnpm install"
+
+# `pnpm dev` runs `vite dev`; @cloudflare/vite-plugin runs the Worker (workerd)
+# in-process, so there is a single Vite dev server to expose. `--port` overrides
+# the hardcoded 3000 in vite.config.ts so each workspace binds its own port.
+# The Cloudflare inspector/debug port auto-allocates to the next free port, so
+# concurrent workspaces don't collide there either.
+run = "pnpm dev --port $CONDUCTOR_PORT"
+
+# Safe to run multiple workspaces at once: each gets a unique Vite port, the
+# Spotify API is remote, and the dev Cloudflare cache is per-workspace.
+run_mode = "concurrent"

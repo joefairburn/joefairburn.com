@@ -8,12 +8,18 @@ dist/
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
+# build output
+/dist
+/.output
 
-# production
-/build
+# cloudflare / wrangler
+.wrangler
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+
+# vite
+/.vite
 
 # misc
 .DS_Store
@@ -33,7 +39,6 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
 
 # IDE
 .idea/

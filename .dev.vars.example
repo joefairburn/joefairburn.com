@@ -1,0 +1,6 @@
+# Local development secrets for `vite dev` / `wrangler dev`.
+# Copy to `.dev.vars` (gitignored) and fill in. In production set these with
+# `wrangler secret put <NAME>` (or via the Cloudflare dashboard).
+SPOTIFY_CLIENT_ID=
+SPOTIFY_CLIENT_SECRET=
+SPOTIFY_REFRESH_TOKEN=

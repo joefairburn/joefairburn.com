@@ -2,9 +2,6 @@ import {
   type PlaybackState,
   type RecentlyPlayedTracksPage,
 } from "@spotify/web-api-ts-sdk";
-import axios, { AxiosError } from "axios";
-
-import { validateEnvVars } from "./security.config";
 
 // Custom error type for Spotify API issues
 export class SpotifyAPIError extends Error {
@@ -17,104 +14,122 @@ export class SpotifyAPIError extends Error {
   }
 }
 
-const clientId = process.env.SPOTIFY_CLIENT_ID;
-const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN;
+export interface SpotifyCredentials {
+  clientId?: string;
+  clientSecret?: string;
+  refreshToken?: string;
+}
 
-const buildTokenRequestData = () =>
-  new URLSearchParams({
-    grant_type: "refresh_token",
-    refresh_token: refreshToken || "",
-  }).toString();
+const TOKEN_URL = "https://accounts.spotify.com/api/token";
+const CURRENTLY_PLAYING_URL =
+  "https://api.spotify.com/v1/me/player/currently-playing";
+const RECENTLY_PLAYED_URL =
+  "https://api.spotify.com/v1/me/player/recently-played?limit=1";
+
+const NO_CONTENT_STATUS = 204;
 
 /**
- * Gets a new Spotify access token using the refresh token
- * @returns {Promise<string>} A promise that resolves to the access token
+ * Ensures the required Spotify credentials are present.
  */
-const getAccessToken = async (): Promise<string> => {
-  validateEnvVars();
+const validateCredentials = (
+  credentials: SpotifyCredentials
+): Required<SpotifyCredentials> => {
+  const requiredKeys = ["clientId", "clientSecret", "refreshToken"] as const;
+  const missing = requiredKeys.filter((key) => !credentials[key]);
 
-  const tokenUrl = "https://accounts.spotify.com/api/token";
-  const requestData = buildTokenRequestData();
+  if (missing.length > 0) {
+    throw new SpotifyAPIError(
+      `Missing required Spotify credentials: ${missing.join(", ")}`
+    );
+  }
 
-  const tokenResponse = await axios.post(tokenUrl, requestData, {
+  return credentials as Required<SpotifyCredentials>;
+};
+
+/**
+ * Gets a new Spotify access token using the refresh token.
+ */
+const getAccessToken = async (
+  credentials: Required<SpotifyCredentials>
+): Promise<string> => {
+  const { clientId, clientSecret, refreshToken } = credentials;
+
+  const response = await fetch(TOKEN_URL, {
+    body: new URLSearchParams({
+      grant_type: "refresh_token",
+      refresh_token: refreshToken,
+    }),
     headers: {
       Authorization: `Basic ${btoa(`${clientId}:${clientSecret}`)}`,
       "Content-Type": "application/x-www-form-urlencoded",
     },
+    method: "POST",
   });
 
-  if (!tokenResponse.data?.access_token) {
+  if (!response.ok) {
+    throw new SpotifyAPIError(
+      "Failed to get access token from Spotify",
+      response.status
+    );
+  }
+
+  const data = (await response.json()) as { access_token?: string };
+
+  if (!data.access_token) {
     throw new SpotifyAPIError("Failed to get access token from Spotify");
   }
 
-  return tokenResponse.data.access_token;
+  return data.access_token;
 };
 
 /**
- * Gets the currently playing track
- * @param {string} accessToken - Spotify access token
- * @returns {Promise<PlaybackState | null>} Currently playing track data or null if no track is playing
+ * Gets the currently playing track, or null when nothing is playing.
  */
-const getCurrentlyPlaying = async (accessToken: string) => {
-  try {
-    const response = await axios.get<PlaybackState>(
-      "https://api.spotify.com/v1/me/player/currently-playing",
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+const getCurrentlyPlaying = async (
+  accessToken: string
+): Promise<PlaybackState | null> => {
+  const response = await fetch(CURRENTLY_PLAYING_URL, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
 
-    return response.data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      // 204 means no track is currently playing, not an error
-      if (error.response?.status === 204) {
-        return null;
-      }
-
-      throw new SpotifyAPIError(
-        `Failed to get currently playing track: ${error.message}`,
-        error.response?.status
-      );
-    }
-    throw error;
+  // 204 means no track is currently playing, not an error
+  if (response.status === NO_CONTENT_STATUS) {
+    return null;
   }
+
+  if (!response.ok) {
+    throw new SpotifyAPIError(
+      "Failed to get currently playing track",
+      response.status
+    );
+  }
+
+  return (await response.json()) as PlaybackState;
 };
 
 /**
- * Gets the most recently played track
- * @param {string} accessToken - Spotify access token
- * @returns {Promise<RecentlyPlayedTracksPage["items"][0] | null>} Most recently played track or null
+ * Gets the most recently played track, or null when there is none.
  */
 const getRecentlyPlayed = async (accessToken: string) => {
-  try {
-    const response = await axios.get<RecentlyPlayedTracksPage>(
-      "https://api.spotify.com/v1/me/player/recently-played?limit=1",
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
+  const response = await fetch(RECENTLY_PLAYED_URL, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+  if (!response.ok) {
+    throw new SpotifyAPIError(
+      "Failed to get recently played tracks",
+      response.status
     );
-
-    if (!response.data.items || response.data.items.length === 0) {
-      return null;
-    }
-
-    // Return the most recent track
-    return response.data.items[0];
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      throw new SpotifyAPIError(
-        `Failed to get recently played tracks: ${error.message}`,
-        error.response?.status
-      );
-    }
-    throw error;
   }
+
+  const data = (await response.json()) as RecentlyPlayedTracksPage;
+
+  if (!data.items || data.items.length === 0) {
+    return null;
+  }
+
+  // Return the most recent track
+  return data.items[0];
 };
 
 type SpotifyDataResult =
@@ -131,18 +146,20 @@ const fetchSpotifyTrack = async (
     return currentlyPlaying;
   }
 
-  const recentlyPlayed = await getRecentlyPlayed(accessToken);
-  return recentlyPlayed;
+  return await getRecentlyPlayed(accessToken);
 };
 
 /**
- * Gets Spotify data - either currently playing or recently played track
+ * Gets Spotify data - either currently playing or recently played track.
+ * @param {SpotifyCredentials} credentials - Spotify OAuth credentials (from the Cloudflare env)
  * @returns {Promise<SpotifyDataResult>} Spotify track data or null if unavailable
  */
-export const getSpotifyData = async (): Promise<SpotifyDataResult> => {
-  "use cache";
+export const getSpotifyData = async (
+  credentials: SpotifyCredentials
+): Promise<SpotifyDataResult> => {
   try {
-    const accessToken = await getAccessToken();
+    const validated = validateCredentials(credentials);
+    const accessToken = await getAccessToken(validated);
     return await fetchSpotifyTrack(accessToken);
   } catch (error) {
     console.error(
