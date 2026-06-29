@@ -48,7 +48,7 @@ function Home() {
           <SectionGrid title="About">
             <GridItem className="flex flex-col gap-4">
               <p className="font-normal font-body text-sm text-neutral-400 w-fit">
-                I&apos;m currently working at Bumper, a FinTech building
+                I&apos;m currently working at Bumper, a fintech building
                 payments and business intelligence tools for the automotive
                 industry.
               </p>
@@ -62,14 +62,23 @@ function Home() {
 
           {/* Experience */}
           <SectionGrid title="Experience">
-            <ExperienceItem dateRange="2025 - now" companyName="Bumper">
+            <ExperienceItem
+              dateRange="2025 - now"
+              companyName="Bumper"
+              href="https://bumper.co"
+            >
               Working on frontend for analytics and business intelligence tools
               used by automotive businesses.
             </ExperienceItem>
 
-            <ExperienceItem dateRange="2023 - 2025" companyName="Uppbeat">
-              Worked on Uppbeat&apos;s Next.js web app, design system, search
-              experience, SEO, analytics tooling, and frontend infrastructure.
+            <ExperienceItem
+              dateRange="2023 - 2025"
+              companyName="Uppbeat"
+              href="https://uppbeat.io"
+            >
+              Modernized Uppbeat&apos;s tech stack and grew the frontend team,
+              working across the Next.js web app, design system, SEO,
+              experimentation tooling, and frontend infrastructure.
             </ExperienceItem>
 
             {/* Evergreen Energy */}
@@ -77,13 +86,16 @@ function Home() {
               dateRange="2021 - 2023"
               companyName="Evergreen Energy"
             >
-              Worked on a Next.js rebuild of internal tools for heat pump
-              quotes, calculations, and installation workflows, with QA coverage
-              in Playwright and Jest.
+              Led a Next.js rebuild of a legacy system while maintaining the
+              tools behind heat pump design calculations and data modelling.
             </ExperienceItem>
 
             {/* ilk agency */}
-            <ExperienceItem dateRange="2020 - 2021" companyName="ilk agency">
+            <ExperienceItem
+              dateRange="2020 - 2021"
+              companyName="ilk agency"
+              href="https://ilk.agency"
+            >
               Built client websites and headless CMS projects with React,
               Gatsby, and Next.js, working with designers, strategists, and
               account teams.
@@ -92,33 +104,20 @@ function Home() {
 
           {/* Projects */}
           <SectionGrid title="Projects">
-            <ExperienceItem dateRange="2026" companyName="RedwoodSDK Docs">
-              Built the{" "}
-              <a
-                href="https://docs.rwsdk.com/"
-                target="_blank"
-                className="underline"
-                rel="noreferrer"
-                aria-label="Visit the RedwoodSDK documentation"
-              >
-                RedwoodSDK docs
-              </a>{" "}
-              with RedwoodSDK, replacing the previous Astro documentation site.
+            <ExperienceItem
+              dateRange="2026"
+              companyName="RedwoodSDK Docs"
+              href="https://docs.rwsdk.com/"
+            >
+              Built with RedwoodSDK, replacing the previous Astro documentation
+              site.
             </ExperienceItem>
 
-            <ExperienceItem dateRange="2025" companyName="Goodpour">
-              Personal software for finding coffee shops around the UK, inspired
-              by writing from{" "}
-              <a
-                href="https://leerob.com/personal-software"
-                target="_blank"
-                className="underline"
-                rel="noreferrer"
-                aria-label="Read Lee Robinson's article on personal software"
-              >
-                Lee Robinson&apos;s writing on personal software
-              </a>{" "}
-              and{" "}
+            <ExperienceItem
+              dateRange="2025"
+              companyName="Goodpour"
+              href="https://goodpour.co"
+            >
               <a
                 href="https://rwsdk.com/personal-software"
                 target="_blank"
@@ -126,13 +125,17 @@ function Home() {
                 rel="noreferrer"
                 aria-label="Read RedwoodSDK's notes on personal software"
               >
-                RedwoodSDK
-              </a>
-              .
+                Personal software
+              </a>{" "}
+              I built for myself to find coffee shops around the UK.
             </ExperienceItem>
 
-            <ExperienceItem dateRange="2021 - 2026" companyName="Moonsworth">
-              Worked on{" "}
+            <ExperienceItem
+              dateRange="2021 - 2026"
+              companyName="Moonsworth"
+              href="https://moonsworth.com"
+            >
+              Worked on a range of projects, including{" "}
               <a
                 href="https://www.lunarclient.com"
                 target="_blank"
@@ -141,9 +144,18 @@ function Home() {
                 aria-label="Visit Lunar Client"
               >
                 Lunar Client
-              </a>{" "}
-              web projects, reusable frontend components, Electron-based
-              launcher, and{" "}
+              </a>
+              ,{" "}
+              <a
+                href="https://lunr.pics/"
+                target="_blank"
+                className="underline"
+                rel="noreferrer"
+                aria-label="Visit Lunar Pics"
+              >
+                Lunar Pics
+              </a>
+              , the Electron-based launcher,{" "}
               <a
                 href="https://wrapped.lunarclient.com"
                 target="_blank"
@@ -153,7 +165,17 @@ function Home() {
               >
                 Wrapped
               </a>
-              , a personalised yearly stats experience.
+              , and the{" "}
+              <a
+                href="https://moonsworth.com"
+                target="_blank"
+                className="underline"
+                rel="noreferrer"
+                aria-label="Visit the Moonsworth website"
+              >
+                Moonsworth website
+              </a>
+              .
             </ExperienceItem>
           </SectionGrid>
 

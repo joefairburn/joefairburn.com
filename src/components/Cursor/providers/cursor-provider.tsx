@@ -163,7 +163,7 @@ export const CursorProvider = ({
   useEffect(() => {
     const handleFirstMouseMove = () => {
       setHasInteractedInitially(true);
-      document.body.style.cursor = "none";
+      document.body.classList.add("custom-cursor-active");
       window.removeEventListener("mousemove", handleFirstMouseMove);
     };
 
