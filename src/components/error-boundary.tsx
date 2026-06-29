@@ -46,7 +46,7 @@ export class ErrorBoundary extends Component<Props, State> {
       // Default minimal error UI
       return (
         <div className="p-4">
-          <p className="text-sm text-neutral-500">Component failed to load</p>
+          <p className="text-sm text-neutral-400">Component failed to load</p>
         </div>
       );
     }

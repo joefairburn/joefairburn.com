@@ -13,18 +13,16 @@
     "lint": "vp check",
     "format": "vp fmt",
     "typecheck": "tsc --noEmit",
-    "prepare": "vp config --no-agent"
+    "prepare": "vp config --no-agent || true"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.8",
-    "@radix-ui/react-portal": "^1.1.12",
     "@spotify/web-api-ts-sdk": "^1.2.0",
     "@tanstack/react-router": "^1.170.16",
     "@tanstack/react-router-devtools": "^1.167.0",
     "@tanstack/react-start": "^1.168.26",
     "clsx": "^2.1.1",
     "date-fns": "^4.4.0",
-    "motion": "^12.42.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "tailwind-merge": "^3.6.0",

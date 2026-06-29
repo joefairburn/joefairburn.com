@@ -7,14 +7,14 @@
   font-family: "Tobias";
   src: url("/fonts/tobias/Tobias-Uprights.woff2") format("woff2");
   font-style: normal;
-  font-display: block;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Tobias";
   src: url("/fonts/tobias/Tobias-Italics.woff2") format("woff2");
   font-style: italic;
-  font-display: block;
+  font-display: swap;
 }
 
 @theme {
@@ -37,4 +37,83 @@ body.custom-cursor-active * {
 ::-moz-selection {
   /* Code for Firefox */
   @apply bg-violet-300 text-black;
+}
+
+/* Visible keyboard focus indicator (the custom cursor only helps mouse users). */
+:focus-visible {
+  outline: 2px solid var(--color-violet-300, #c4b5fd);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@theme {
+  /* Easing that reproduces the old framer-motion spring
+     ({ stiffness: 200, damping: 15, mass: 0.2 }). That spring is overdamped
+     (damping ratio ~1.19), so its step response is a smooth approach with no
+     overshoot — sampled here as a linear() curve. */
+  --ease-cursor: linear(
+    0,
+    0.278,
+    0.584,
+    0.77,
+    0.875,
+    0.932,
+    0.963,
+    0.98,
+    0.989,
+    0.994,
+    1
+  );
+}
+
+/* Custom cursor icon state machine (replaces the framer-motion variants in
+   cursor-icon.tsx). The .size-5 wrapper is positioned at the pointer; this
+   element only scales / morphs between interaction states via `data-cursor`. */
+.cursor-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  opacity: 1;
+  transform: scale(1);
+  transform-origin: center;
+  transition:
+    transform 300ms var(--ease-cursor),
+    width 300ms var(--ease-cursor),
+    height 300ms var(--ease-cursor),
+    opacity 200ms linear;
+}
+.cursor-icon[data-cursor="pointer"] {
+  transform: scale(1.5);
+}
+.cursor-icon[data-cursor="grab-active"] {
+  transform: scale(0.5);
+}
+.cursor-icon[data-cursor="hidden"] {
+  transform: scale(0);
+  opacity: 0;
+}
+/* Hovering text morphs the dot into a thin caret the height of the line. */
+.cursor-icon[data-cursor="text"] {
+  width: 4px;
+  height: var(--cursor-h, 1.25rem);
+}
+
+/* Spotify card fade-in (replaces the motion.div opacity animation). */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+.animate-fade-in {
+  animation: fade-in 500ms ease both;
+}
+
+/* Respect reduced motion: keep opacity (show/hide) but drop the transform/size
+   springs and the fade — mirrors the old framer reducedMotion="user". */
+@media (prefers-reduced-motion: reduce) {
+  .cursor-icon {
+    transition-property: opacity;
+  }
+  .animate-fade-in {
+    animation: none;
+  }
 }

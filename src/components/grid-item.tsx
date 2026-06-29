@@ -18,7 +18,9 @@ export const GridItem: React.FC<GridItemProps> = ({
         <p className="font-display text-sm text-neutral-300 w-fit">{label}</p>
       </div>
     ) : null}
-    <div className={clsx("col-span-2", !label && "col-start-2", className)}>
+    <div
+      className={clsx("md:col-span-2", !label && "md:col-start-2", className)}
+    >
       {children}
     </div>
   </>

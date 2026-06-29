@@ -5,16 +5,13 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useRef,
   useState,
 } from "react";
 
 interface CursorContextType {
-  cursorRef: RefObject<HTMLDivElement | null>;
   cursorType: string;
   isMouseDown: boolean;
   isVisible: boolean;
-  popupRef: RefObject<HTMLDivElement | null>;
   targetHeight: number | undefined;
 }
 
@@ -23,7 +20,6 @@ const CursorContext = createContext<CursorContextType | undefined>(undefined);
 interface CursorProviderProps {
   children: ReactNode;
   cursorRef: RefObject<HTMLDivElement | null>;
-  popupRef: RefObject<HTMLDivElement | null>;
 }
 
 const getCursorType = (target: HTMLElement): string => {
@@ -50,32 +46,6 @@ const getTargetHeight = (target: HTMLElement, cursor: string): number => {
       : lineHeight;
   }
   return target.getBoundingClientRect().height;
-};
-
-const calculatePopupOffset = (
-  e: MouseEvent,
-  popupRect: DOMRect,
-  cursorRect: DOMRect
-): { x: number; y: number } => {
-  const borderMargin = 10;
-  let x = 0;
-  let y = 0;
-
-  if (
-    e.clientX + popupRect.width + cursorRect.width + borderMargin >
-    window.innerWidth
-  ) {
-    x = -(cursorRect.width + popupRect.width + borderMargin);
-  }
-
-  if (
-    e.clientY + popupRect.height + cursorRect.height + borderMargin >
-    window.innerHeight
-  ) {
-    y = -(cursorRect.height + popupRect.height + borderMargin);
-  }
-
-  return { x, y };
 };
 
 interface MouseEventHandlers {
@@ -151,14 +121,12 @@ const removeEventListeners = (
 export const CursorProvider = ({
   children,
   cursorRef,
-  popupRef,
 }: CursorProviderProps) => {
   const [isVisible, setIsVisible] = useState(true);
   const [hasInteractedInitially, setHasInteractedInitially] = useState(false);
   const [cursorType, setCursorType] = useState<string>("default");
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [targetHeight, setTargetHeight] = useState<number | undefined>();
-  const targetRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const handleFirstMouseMove = () => {
@@ -178,23 +146,13 @@ export const CursorProvider = ({
 
   const updatePosition = useCallback(
     (e: MouseEvent) => {
-      const newPos = {
-        x: `calc(${e.clientX}px - 50%)`,
-        y: `calc(${e.clientY}px - 50%)`,
-      };
-
       if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate(${newPos.x}, ${newPos.y})`;
-      }
-
-      if (popupRef.current && cursorRef.current) {
-        const popupRect = popupRef.current.getBoundingClientRect();
-        const cursorRect = cursorRef.current.getBoundingClientRect();
-        const { x, y } = calculatePopupOffset(e, popupRect, cursorRect);
-        popupRef.current.style.transform = `translate(${x}px, ${y}px)`;
+        const x = `calc(${e.clientX}px - 50%)`;
+        const y = `calc(${e.clientY}px - 50%)`;
+        cursorRef.current.style.transform = `translate(${x}, ${y})`;
       }
     },
-    [cursorRef, popupRef]
+    [cursorRef]
   );
 
   useEffect(() => {
@@ -205,7 +163,6 @@ export const CursorProvider = ({
       handleMouseOver: (e: MouseEvent) => {
         const target = e.target as HTMLElement;
         const cursor = getCursorType(target);
-        targetRef.current = target;
         setTargetHeight(getTargetHeight(target, cursor));
         setCursorType(cursor);
       },
@@ -215,14 +172,13 @@ export const CursorProvider = ({
     addEventListeners(handlers, updatePosition);
     return () => removeEventListeners(handlers, updatePosition);
   }, [updatePosition]);
+
   return (
     <CursorContext.Provider
       value={{
-        cursorRef,
         cursorType: hasInteractedInitially ? cursorType : "hidden",
         isMouseDown,
         isVisible,
-        popupRef,
         targetHeight,
       }}
     >

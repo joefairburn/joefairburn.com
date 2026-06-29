@@ -1,5 +1,4 @@
 import { clsx } from "clsx";
-import { motion } from "motion/react";
 
 import { Skeleton } from "../Skeleton";
 import { ActivityIndicator } from "./activity-indicator";
@@ -55,11 +54,13 @@ const ArtistName = ({ name }: { name: string }) => {
     return <Skeleton className={clsx(className, "w-24")} />;
   }
 
-  return <div className={clsx(className, "text-sm text-gray-500")}>{name}</div>;
+  return (
+    <div className={clsx(className, "text-sm text-neutral-400")}>{name}</div>
+  );
 };
 
 const ErrorDisplay = () => (
-  <div className="flex items-center justify-center text-xs text-neutral-500 px-4 h-full w-full">
+  <div className="flex items-center justify-center text-xs text-neutral-400 px-4 h-full w-full">
     Failed to load Spotify data.
   </div>
 );
@@ -100,17 +101,12 @@ export const PersonalCard = ({
   spotifyData: SerializedTrackData | { error: true } | null;
 }) => (
   <div
-    className="bg-black border-neutral-800 shadow-md rounded-xl overflow-hidden h-[96px]"
+    className="bg-black border border-neutral-800 shadow-md rounded-xl overflow-hidden h-[96px]"
     role="region"
     aria-label="Spotify Activity"
   >
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="flex items-center h-[96px]"
-    >
+    <div className="animate-fade-in flex items-center h-[96px]">
       <SpotifySection item={spotifyData} />
-    </motion.div>
+    </div>
   </div>
 );

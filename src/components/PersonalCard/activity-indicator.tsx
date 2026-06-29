@@ -24,7 +24,7 @@ export const ActivityIndicator = ({
   }
   const isCurrentlyPlaying = played_at === null;
 
-  const dotColor = isCurrentlyPlaying ? "bg-green-600" : "bg-gray-600";
+  const dotColor = isCurrentlyPlaying ? "bg-green-600" : "bg-neutral-500";
 
   // Fallback text in case activityText is not provided
   const displayText =
@@ -34,7 +34,7 @@ export const ActivityIndicator = ({
   return (
     <ActivityContainer>
       <div className={clsx("size-2 rounded-full", dotColor)} />
-      <span className="text-xs text-gray-600">{displayText}</span>
+      <span className="text-xs text-neutral-400">{displayText}</span>
     </ActivityContainer>
   );
 };

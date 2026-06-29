@@ -57,6 +57,10 @@ function Home() {
                 product interfaces, design systems, performance, and data-led
                 product work.
               </p>
+              <p className="font-normal font-body text-sm text-neutral-400 w-fit">
+                I care about craft and polish, without compromising on shipping
+                fast.
+              </p>
             </GridItem>
           </SectionGrid>
 
