@@ -39,7 +39,7 @@ function Home() {
             <h1 className="font-display font-medium text-5xl tracking-tight w-fit mb-0">
               Joe Fairburn
             </h1>
-            <p className="font-display font-light text-lg text-neutral-50">
+            <p className="font-display font-light text-lg text-neutral-50 w-fit">
               Product Engineer
             </p>
           </div>
