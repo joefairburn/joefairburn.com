@@ -17,9 +17,31 @@
   font-display: swap;
 }
 
+/* Metric-adjusted fallback fonts: the overrides make the system fallback
+   occupy the same space as the web font, so swapping the web font in causes no
+   layout shift (CLS). Values are computed from the actual font files (capsize
+   method) against the fallback font's metrics. */
+@font-face {
+  font-family: "Inter Fallback";
+  src: local("Arial");
+  ascent-override: 91.43%;
+  descent-override: 22.77%;
+  line-gap-override: 0%;
+  size-adjust: 105.96%;
+}
+
+@font-face {
+  font-family: "Tobias Fallback";
+  src: local("Times New Roman");
+  ascent-override: 92.14%;
+  descent-override: 22.72%;
+  line-gap-override: 0%;
+  size-adjust: 102.12%;
+}
+
 @theme {
-  --font-display: "Tobias", "serif";
-  --font-body: "Inter Variable", "Inter", "sans-serif";
+  --font-display: "Tobias", "Tobias Fallback", "serif";
+  --font-body: "Inter Variable", "Inter", "Inter Fallback", "sans-serif";
 }
 
 /* Hide the native cursor everywhere once the custom cursor takes over.
